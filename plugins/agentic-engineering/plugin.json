@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agentic-engineering",
-  "version": "0.4.1",
-  "description": "A runtime-neutral engineering plugin that uses Claude Code ultracode and Codex Ultra native proactive multi-agent orchestration while standardizing project policy, durable state, verification, and GitHub review topology.",
+  "version": "0.4.2",
+  "description": "A runtime-neutral engineering plugin that uses Claude Code ultracode and Codex Ultra for native execution while composing safely with Superpowers methodology and standardizing durable state, verification, and GitHub review topology.",
   "author": {
     "name": "Agentic Engineering Maintainers",
     "url": "https://github.com/calorie"
@@ -17,7 +17,8 @@
     "context-management",
     "subagents",
     "worktree",
-    "stacked-pr"
+    "stacked-pr",
+    "superpowers"
   ],
   "extensions": {
     "com.openai": {
@@ -30,7 +31,10 @@
         "longDescription": "Use Claude Code ultracode or Codex Ultra for execution topology while enforcing project constraints, durable state, verification evidence, and Git/PR topology.",
         "developerName": "Agentic Engineering Maintainers",
         "category": "Productivity",
-        "capabilities": ["Read", "Write"]
+        "capabilities": [
+          "Read",
+          "Write"
+        ]
       }
     }
   }
