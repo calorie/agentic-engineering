@@ -55,9 +55,22 @@ def main() -> None:
     cwd = Path(payload.get("cwd") or os.getcwd()).resolve()
     runtime = "Codex" if os.environ.get("PLUGIN_ROOT") else "Claude Code"
 
+    if runtime == "Claude Code":
+        runtime_policy = (
+            "Claude Code ultracode / Dynamic Workflows を実行エンジンの第一選択とする。"
+            "Agentic Engineering は agent 数や固定 worker graph を決めず、project constraints、"
+            "verification requirements、durable engineering state、Git/PR topology だけを補強する。"
+        )
+    else:
+        runtime_policy = (
+            "Codex Ultra の proactive multi-agent orchestration を実行エンジンの第一選択とする。"
+            "Agentic Engineering は agent 数や固定 worker graph を決めず、project constraints、"
+            "verification requirements、durable engineering state、Git/PR topology だけを補強する。"
+        )
+
     chunks = [
-        "Agentic Engineering が有効です。ルート会話は control-plane とし、実質的なタスクは規模に応じ fresh-context subagent / isolated worktree、Stacked PR、durable state を自動選択してください。人間に context clear や並列数の管理を委ねないでください。",
-        f"現在の agent runtime: {runtime}。runtime 固有機能が利用できない場合は安全に縮退してください。",
+        "Agentic Engineering 0.4 native-first policy が有効です。人間に context clear、parallelism、agent 数の管理を委ねないでください。",
+        runtime_policy,
     ]
 
     project_path = cwd / ".agentic" / "PROJECT.md"
@@ -75,8 +88,8 @@ def main() -> None:
         for name, title, lim in [
             ("SPEC.md", "SPEC", MAX_TASK_CHARS // 3),
             ("STATE.md", "STATE", MAX_TASK_CHARS // 3),
-            ("COMPACT.md", "LAST COMPACTION", MAX_TASK_CHARS // 6),
-            ("RUNTIME.md", "RUNTIME", MAX_TASK_CHARS // 6),
+            ("COMPACT.md", "LAST COMPACTION (fallback)", MAX_TASK_CHARS // 6),
+            ("RUNTIME.md", "RUNTIME (fallback)", MAX_TASK_CHARS // 6),
         ]:
             value = read_text(task_dir / name, lim)
             if value:
@@ -89,11 +102,8 @@ def main() -> None:
         "additionalContext": "\n\n".join(chunks),
     }
 
-    # Claude Code は watchPaths を使って FileChanged hook を補助できる。
-    # Codex では未対応なので出力しない。
     if runtime == "Claude Code":
-        watch_paths = [str(cwd / name) for name in WATCH_NAMES if (cwd / name).exists()]
-        hook_output["watchPaths"] = watch_paths
+        hook_output["watchPaths"] = [str(cwd / name) for name in WATCH_NAMES if (cwd / name).exists()]
 
     print(json.dumps({"hookSpecificOutput": hook_output}, ensure_ascii=False))
 
