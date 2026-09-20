@@ -1,5 +1,5 @@
 {
-  "description": "Agentic Engineering の Codex 用 context firewall と長期タスク自動復元",
+  "description": "Agentic Engineering context firewall and long-task recovery for Codex.",
   "hooks": {
     "SessionStart": [
       {
@@ -8,7 +8,7 @@
             "type": "command",
             "command": "python3 \"${PLUGIN_ROOT}/scripts/session_context.py\"",
             "timeout": 10,
-            "statusMessage": "Loading agentic engineering context"
+            "statusMessage": "Loading Agentic Engineering context"
           }
         ]
       }
