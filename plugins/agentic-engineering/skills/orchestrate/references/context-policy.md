@@ -1,12 +1,39 @@
 # Context policy
 
-- root/main conversation は control-plane。残すのは要求、制約、決定、統合判断、最終結果。
-- substantive な新規タスクは fresh execution context を優先し、無関係な前タスクの実装履歴を再利用しない。
-- repository-wide discovery は investigator / Dynamic Workflow に委譲する。
-- 大量 fan-out は Dynamic Workflow を使い、中間結果を main conversation に戻さない。
-- test/build の長い stdout は結論と失敗箇所だけ残す。
-- project 固有の恒久知識は `.agentic/PROJECT.md` へ短く記録する。
-- 長期タスクの進捗は `.agent/tasks/<task>/STATE.md` を正本にする。
-- chat transcript を durable state とみなさない。
-- auto-compaction は通常運用の safety net。ユーザーへ `/clear` / `/compact` を要求しない。
-- compaction 後や新セッションでは STATE / SPEC / 自動保存された COMPACT / RUNTIME から再開し、会話を完全再構築しようとしない。
+## Runtime state vs engineering state
+
+Runtime-native orchestration owns transient execution state:
+
+- Claude Code Dynamic Workflow plan, agent graph, intermediate variables, workflow checkpoints;
+- Codex Ultra subagent execution and thread state.
+
+Agentic Engineering should not duplicate that state into chat or repository files.
+
+Durable engineering state owns only information that must survive runtime/session boundaries:
+
+- project facts in `.agentic/PROJECT.md`;
+- stable task requirements in `.agent/tasks/<task>/SPEC.md`;
+- cross-session engineering progress in `STATE.md`;
+- durable rationale in `DECISIONS.md`.
+
+## Root context
+
+Keep the root conversation/thread focused on:
+
+- user requirements;
+- constraints;
+- confirmed decisions;
+- integration status;
+- verification evidence;
+- blockers;
+- final result.
+
+Do not paste bulk searches, long test logs, or every subagent result into root context.
+
+## Compaction
+
+Treat runtime-native compaction and workflow checkpointing as normal operation.
+
+Do not ask the user to manage `/clear` or `/compact`.
+
+`COMPACT.md` and `RUNTIME.md` are fallback diagnostics/checkpoints only. They are not the primary state when the runtime already preserves its own workflow progress.
