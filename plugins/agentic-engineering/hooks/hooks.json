@@ -1,5 +1,5 @@
 {
-  "description": "Agentic Engineering の context firewall、project profile freshness、長期タスク自動復元",
+  "description": "Agentic Engineering context firewall, project-profile freshness checks, and long-task recovery for Claude Code.",
   "hooks": {
     "SessionStart": [
       {
