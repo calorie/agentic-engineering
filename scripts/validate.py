@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -90,10 +91,37 @@ for agent in (PLUGIN / "agents").glob("*.md"):
     if not match:
         errors.append(f"invalid/missing Claude agent name: {agent}")
 
+# Keep the central distribution repository English-only. This checks every
+# tracked UTF-8 text file and intentionally treats CJK/Hiragana/Katakana text
+# as a validation failure.
+non_english_pattern = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uff66-\uff9f]")
+try:
+    tracked = subprocess.check_output(
+        ["git", "-C", str(ROOT), "ls-files", "-z"],
+        text=False,
+    ).split(b"\0")
+except Exception as exc:
+    errors.append(f"could not enumerate tracked files for language validation: {exc}")
+    tracked = []
+
+for raw_path in tracked:
+    if not raw_path:
+        continue
+    relative = raw_path.decode("utf-8", errors="strict")
+    path = ROOT / relative
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (UnicodeDecodeError, OSError):
+        continue
+    match = non_english_pattern.search(text)
+    if match:
+        line = text.count("\n", 0, match.start()) + 1
+        errors.append(f"non-English text detected: {relative}:{line}")
+
 if errors:
     print("FAIL")
     for err in errors:
         print("-", err)
     sys.exit(1)
 
-print("PASS: agentic-engineering Claude/Codex plugin structure")
+print("PASS: agentic-engineering Claude/Codex plugin structure and English-only policy")
