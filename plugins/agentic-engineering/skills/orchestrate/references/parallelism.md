@@ -6,6 +6,8 @@ Do not optimize agent count. Optimize **correct merged throughput**.
 
 Claude Code ultracode/Dynamic Workflows and Codex Ultra own task decomposition, fan-out, staging, and agent count. Agentic Engineering supplies only the boundaries the runtime must not violate.
 
+If Superpowers is installed, its methodology can refine task execution, but Superpowers execution-topology skills must not become a second scheduler under an already active native workflow.
+
 ## Hard boundaries
 
 | Situation | Constraint |
@@ -23,11 +25,29 @@ Claude Code ultracode/Dynamic Workflows and Codex Ultra own task decomposition, 
 
 ### Claude Code ultracode
 
-Let Dynamic Workflows generate the harness. Do not replace it with a fixed set of Plugin subagents.
+Let Dynamic Workflows generate the harness. Do not replace it with a fixed set of Plugin subagents or a nested Superpowers scheduler.
 
 ### Codex Ultra
 
-Let proactive multi-agent delegation choose subagents. Do not require explicit user delegation and do not recreate Claude-specific workflow structure.
+Let proactive multi-agent delegation choose subagents. Do not require explicit user delegation and do not recreate Claude-specific or Superpowers-specific worker graphs.
+
+## Superpowers mapping
+
+Methodology-oriented Superpowers skills may run inside native parallel execution.
+
+Examples:
+
+- TDD loops may run independently in isolated worktrees/checkouts.
+- Systematic debugging may use parallel read-only evidence gathering.
+- Verification-before-completion may gate completion without owning the worker graph.
+
+Do not nest:
+
+- `subagent-driven-development`;
+- `dispatching-parallel-agents`;
+- `executing-plans`;
+
+under an already active Dynamic Workflow or Codex Ultra delegation graph.
 
 ## Resource contention
 
