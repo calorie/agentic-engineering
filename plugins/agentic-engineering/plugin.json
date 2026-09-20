@@ -19,7 +19,9 @@
   ],
   "extensions": {
     "com.openai": {
-      "hooks": "./hooks/hooks.codex.json",
+      "hooks": [
+        "./hooks/hooks.codex.json"
+      ],
       "interface": {
         "displayName": "Agentic Engineering",
         "shortDescription": "Autonomous software-engineering orchestration",
