@@ -1,8 +1,8 @@
 {
   "name": "agentic-engineering",
   "displayName": "Agentic Engineering",
-  "version": "0.4.1",
-  "description": "A runtime-neutral engineering policy plugin that uses Claude Code ultracode and Dynamic Workflows as the execution engine while enforcing project constraints, durable engineering state, verification, and Git/PR topology.",
+  "version": "0.4.2",
+  "description": "A runtime-neutral engineering policy plugin that uses Claude Code ultracode/Dynamic Workflows as the execution engine and composes with Superpowers methodology without allowing nested schedulers.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
