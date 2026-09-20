@@ -1,4 +1,4 @@
-# 長期タスク雛形
+# Long-task templates
 
 ## SPEC.md
 
