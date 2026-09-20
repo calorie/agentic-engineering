@@ -18,19 +18,57 @@ def load_json(path: Path):
         errors.append(f"JSON error {path}: {exc}")
         return {}
 
-market = load_json(ROOT / ".claude-plugin" / "marketplace.json")
-manifest = load_json(PLUGIN / ".claude-plugin" / "plugin.json")
-load_json(PLUGIN / "hooks" / "hooks.json")
 
-if market.get("name") != "agentic-engineering":
-    errors.append("marketplace name must be agentic-engineering")
-if manifest.get("name") != "agentic-engineering":
-    errors.append("plugin name must be agentic-engineering")
+claude_market = load_json(ROOT / ".claude-plugin" / "marketplace.json")
+codex_market = load_json(ROOT / ".agents" / "plugins" / "marketplace.json")
+claude_manifest = load_json(PLUGIN / ".claude-plugin" / "plugin.json")
+codex_manifest = load_json(PLUGIN / ".codex-plugin" / "plugin.json")
+portable_manifest = load_json(PLUGIN / "plugin.json")
+claude_hooks = load_json(PLUGIN / "hooks" / "hooks.json")
+codex_hooks = load_json(PLUGIN / "hooks" / "hooks.codex.json")
 
-mv = market.get("plugins", [{}])[0].get("version")
-pv = manifest.get("version")
-if mv != pv:
-    errors.append(f"version mismatch: marketplace={mv} plugin={pv}")
+for label, obj in [
+    ("Claude marketplace", claude_market),
+    ("Codex marketplace", codex_market),
+    ("Claude manifest", claude_manifest),
+    ("Codex manifest", codex_manifest),
+    ("portable manifest", portable_manifest),
+]:
+    if obj.get("name") != "agentic-engineering":
+        errors.append(f"{label} name must be agentic-engineering")
+
+claude_market_version = claude_market.get("plugins", [{}])[0].get("version")
+versions = {
+    "Claude marketplace": claude_market_version,
+    "Claude manifest": claude_manifest.get("version"),
+    "Codex manifest": codex_manifest.get("version"),
+    "portable manifest": portable_manifest.get("version"),
+}
+if len({v for v in versions.values() if v is not None}) != 1:
+    errors.append("version mismatch: " + ", ".join(f"{k}={v}" for k, v in versions.items()))
+
+if portable_manifest.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json":
+    errors.append("portable plugin must use Agent Plugins 1.0 schema")
+
+codex_plugins = codex_market.get("plugins", [])
+if not codex_plugins:
+    errors.append("Codex marketplace must contain agentic-engineering plugin")
+else:
+    source = codex_plugins[0].get("source", {})
+    if source.get("path") != "./plugins/agentic-engineering":
+        errors.append("Codex marketplace local plugin path is invalid")
+
+codex_events = set(codex_hooks.get("hooks", {}))
+unsupported_codex_events = codex_events - {
+    "PreToolUse", "PermissionRequest", "PostToolUse", "PreCompact", "PostCompact",
+    "UserPromptSubmit", "SubagentStop", "Stop", "Interrupt", "SessionStart",
+    "SubagentStart", "SessionEnd",
+}
+if unsupported_codex_events:
+    errors.append(f"unsupported Codex hook events: {sorted(unsupported_codex_events)}")
+
+if "FileChanged" not in claude_hooks.get("hooks", {}):
+    errors.append("Claude hook set should retain FileChanged profile invalidation")
 
 for skill in (PLUGIN / "skills").glob("*/SKILL.md"):
     text = skill.read_text(encoding="utf-8")
@@ -45,11 +83,12 @@ for agent in (PLUGIN / "agents").glob("*.md"):
         errors.append(f"missing frontmatter: {agent}")
     match = re.search(r"^name:\s*([a-z0-9-]+)\s*$", text, re.M)
     if not match:
-        errors.append(f"invalid/missing agent name: {agent}")
+        errors.append(f"invalid/missing Claude agent name: {agent}")
 
 if errors:
     print("FAIL")
     for err in errors:
         print("-", err)
     sys.exit(1)
-print("PASS: agentic-engineering plugin structure")
+
+print("PASS: agentic-engineering Claude/Codex plugin structure")
