@@ -68,9 +68,16 @@ def main() -> None:
             "verification requirements, durable engineering state, and Git/PR topology."
         )
 
+    superpowers_policy = (
+        "If Superpowers is installed, use it as a methodology provider. Prefer TDD, systematic debugging, and fresh verification, "
+        "but do not let subagent-driven-development, dispatching-parallel-agents, or executing-plans create a second scheduler "
+        "under native orchestration. Deduplicate equivalent review, verification, and worktree setup."
+    )
+
     chunks = [
-        "Agentic Engineering 0.4 native-first policy is active. Do not make the user manage context cleanup, parallelism, or agent count.",
+        "Agentic Engineering 0.4.2 native-first policy is active. Do not make the user manage context cleanup, parallelism, or agent count.",
         runtime_policy,
+        superpowers_policy,
     ]
 
     project_path = cwd / ".agentic" / "PROJECT.md"
