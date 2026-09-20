@@ -50,6 +50,11 @@ if len({v for v in versions.values() if v is not None}) != 1:
 if portable_manifest.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json":
     errors.append("portable plugin must use Agent Plugins 1.0 schema")
 
+openai_ext = portable_manifest.get("extensions", {}).get("com.openai", {})
+portable_hooks = openai_ext.get("hooks")
+if not isinstance(portable_hooks, list) or portable_hooks != ["./hooks/hooks.codex.json"]:
+    errors.append("portable OpenAI hooks must be a list pointing to ./hooks/hooks.codex.json")
+
 codex_plugins = codex_market.get("plugins", [])
 if not codex_plugins:
     errors.append("Codex marketplace must contain agentic-engineering plugin")
