@@ -1,61 +1,63 @@
 ---
 name: stacked-pr
 description: This skill should be used when a change contains multiple dependent but independently reviewable units, when the user mentions stacked PRs, or when orchestration determines that a foundation/interface change should land below one or more consumer changes. It uses GitHub native stacked pull requests through the gh stack extension when available.
-version: 0.2.0
+version: 0.4.1
 ---
 
-# GitHub Stacked PR
+# GitHub Stacked Pull Requests
 
-依存する変更を小さくレビュー可能なレイヤーへ分ける。
+Split dependent changes into small, reviewable layers.
 
-## 選択条件
+## When to use a stack
 
-Stacked PR を使う:
-- 各レイヤーに明確な責務がある。
-- 上位レイヤーが下位レイヤーへ依存する。
-- 各レイヤーを単体でレビューする価値がある。
+Use stacked pull requests when:
 
-使わない:
-- 独立タスク。別 PR にする。
-- 1つの小さい変更。単一 PR にする。
-- 分割すると中間状態が壊れ、各レイヤーに検証可能性がない。
+- each layer has a clear responsibility;
+- an upper layer depends on a lower layer;
+- each layer is valuable to review independently.
 
-## 前提確認
+Do not use a stack when:
 
-1. GitHub remote と `gh` authentication を確認する。
-2. `gh stack --help` が利用可能か確認する。
-3. 未導入で、環境変更が許可されるなら `gh extension install github/gh-stack --force` で latest stable release を導入・更新する。
-4. Stack の全 branch は同一 repository 内に置く。cross-fork stack を作らない。
+- the tasks are independent; use separate pull requests instead;
+- the change is small and focused; use one pull request;
+- splitting the change creates broken intermediate states with no meaningful verification story.
 
-## 作成
+## Preconditions
 
-trunk 上で最下位レイヤーを開始する:
+1. Confirm the repository has a GitHub remote and that `gh` is authenticated.
+2. Confirm `gh stack --help` is available.
+3. If the extension is missing and environment changes are permitted, install or update the latest stable release with `gh extension install github/gh-stack --force`.
+4. Keep every branch in the stack in the same repository. Do not create cross-fork stacks.
+
+## Create a stack
+
+Start the lowest layer from the trunk branch:
 
 ```bash
 gh stack init <branch>
 ```
 
-実装・検証・commit 後、次の dependent layer を追加する:
+After implementing, verifying, and committing that layer, add the next dependent layer:
 
 ```bash
 gh stack add <branch>
 ```
 
-同様に必要な層だけ積む。レビュー単位を増やすためだけに stack を深くしない。
+Add only the layers that are actually useful for review. Do not deepen the stack merely to create more review units.
 
-## 提出
+## Submit
 
-remote への PR 作成がタスク意図と repository policy で許可される場合:
+When remote pull-request creation is allowed by the task intent and repository policy:
 
 ```bash
 gh stack submit
 ```
 
-許可が不明なら local stack を完成させ、提出直前で状態を報告する。
+If permission is unclear, complete the local stack and report that it is ready to submit.
 
-## 下位レイヤーの修正
+## Modify a lower layer
 
-正しい layer に戻って修正し、上位で workaround しない。
+Return to the correct layer and fix it there instead of adding a workaround above it:
 
 ```bash
 gh stack checkout <branch>
@@ -64,26 +66,26 @@ gh stack rebase --upstack
 gh stack push
 ```
 
-## 同期
+## Synchronize
 
-通常の同期:
+Normal synchronization:
 
 ```bash
 gh stack sync
 ```
 
-merged branch も整理する場合:
+Also prune merged branches when appropriate:
 
 ```bash
 gh stack sync --prune
 ```
 
-競合時は `gh stack rebase` で対話的に解消し、`gh stack push` で反映する。
+For conflicts, use `gh stack rebase` interactively, then publish with `gh stack push`.
 
-## Agent 並列化との関係
+## Relationship to agent parallelism
 
-同じ stack の上下 layer は原則として別 worker に同時実装させない。下位の変更が上位へ cascade するため、stack 内は sequential、独立 stack 間は parallel を基本とする。
+Do not normally assign upper and lower layers of the same stack to different writers at the same time. Lower-layer changes cascade upward. Keep dependent work sequential within a stack; parallelize only across genuinely independent stacks.
 
-## 追加資料
+## Reference
 
-- `references/commands.md` — コマンド早見表
+- `references/commands.md` — command reference
