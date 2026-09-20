@@ -1,63 +1,50 @@
 # 組織向け中央配布
 
-agentic-engineering は **Claude Code と Codex の両方**へ同じ engineering policy を中央配布することを目的とする。
+agentic-engineering 0.4 は **native proactive orchestration + shared engineering policy** を組織へ配布する。
 
-公開 Marketplace:
+## Execution baseline
 
-- https://github.com/calorie/agentic-engineering
+Claude Code:
+- ultracode / Dynamic Workflows を primary execution engine とする。
+- account/model/admin policy が workflows または xhigh を制限する場合、その制限が優先される。
 
-## Claude Code
+Codex:
+- project config で `model_reasoning_effort = "ultra"` を要求する。
+- Ultra 対応 account/model では proactive task delegation を primary execution engine とする。
 
-Anthropic 側の Organization plugin management で Marketplace を接続し、必要に応じて `agentic-engineering` を Required / Installed by default として配布する。
+Agentic Engineering が agent count や固定 worker graph を組織標準として hardcode しない。
 
-## Codex / ChatGPT
-
-OpenAI workspace の plugin management では、この repository の Codex Marketplace (`.agents/plugins/marketplace.json`) または対応する Marketplace 形式を import / sync する。
-
-管理対象環境では:
-
-1. Marketplace source を許可する。
-2. `agentic-engineering` の installation policy を組織方針に合わせる。
-3. Plugin に含まれる Skills と Hooks をレビューする。
-4. Hooks を trusted managed configuration として配布する場合は、各 developer が同じ source を利用するようにする。
-5. project の `AGENTS.md` と中央 Plugin の責務を混ぜない。
-
-Codex IDE extension は現時点で Plugin 非対応なので、IDE では `AGENTS.md` が fallback policy になる。
-
-## 共通原則
+## Central policy
 
 中央 Plugin に置く:
 
-- orchestration policy
-- Skills
-- context / long-task protocol
-- review / verification policy
-- runtime adapter
-- GitHub Stacked PR policy
+- project discovery policy
+- parallel-write safety boundaries
+- durable engineering state protocol
+- verification requirements
+- dependency/version policy
+- GitHub review topology / Stacked PR policy
+- runtime adapter / safe fallback
 
-project に置く:
+各 project に置く:
 
 - `AGENTS.md`
-- Claude adapter (`CLAUDE.md`, `.claude/settings.json`)
-- Codex adapter (`.codex/config.toml`)
+- `CLAUDE.md` / `.claude/settings.json`
+- `.codex/config.toml`
 - `.agentic/PROJECT.md`
-- project 固有の architecture / test / migration constraints
+- project-specific architecture / test / migration facts
 
-## Fork / private marketplace
+## Distribution
 
-組織固有 policy を Plugin 本体に組み込む場合は repository を fork / private mirror して中央管理できる。
+Claude Code organization management では Marketplace を接続し、必要に応じて Plugin を Required / Installed by default として配布する。
 
-その場合:
+Codex / ChatGPT workspace では対応する Plugin Marketplace / directory policy で配布する。Codex IDE extension は Plugin 非対応のため `AGENTS.md` が fallback policy になる。
 
-- Plugin 名は可能な限り `agentic-engineering` のまま維持する。
-- Claude と Codex の Marketplace source を同じ fork に向ける。
+## Stability
+
+- Plugin slug を維持する。
 - portable / Claude / Codex manifests の version を揃える。
-- policy 変更は PR + CI + CHANGELOG + version bump を通す。
-
-## 安定運用
-
-- generic policy を各 project へコピーしない。
-- hook は短時間・fail-open を基本とする。
-- project 固有情報を中央 Plugin に hardcode しない。
-- runtime 固有機能に依存しすぎず、安全な fallback を持つ。
-- GitHub Actions と外部依存は project constraint と互換な最新 stable を追従する。
+- policy changes は PR + CI + CHANGELOG + version bump を通す。
+- generic policy を project ごとに複製しない。
+- runtime-native capability が進化したら custom orchestration を増やすのではなく adapter を薄くする。
+- project-specific facts を中央 Plugin に hardcode しない。
