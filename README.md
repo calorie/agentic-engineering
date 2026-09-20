@@ -1,70 +1,70 @@
 # agentic-engineering
 
-Claude Code **ultracode** と Codex **Ultra** の native proactive multi-agent orchestration を活かしながら、project constraints、durable engineering state、verification、Git/PR topology を runtime 横断で統一する Agent Plugin / Marketplace です。
+Agentic Engineering is a runtime-neutral Agent Plugin / Marketplace that uses **Claude Code ultracode** and **Codex Ultra** native proactive multi-agent orchestration while standardizing project constraints, durable engineering state, verification, and Git/PR topology.
 
 - Marketplace: https://github.com/calorie/agentic-engineering
 - Project Template: https://github.com/calorie/agentic-repo-template
-- Current version: **0.4.0**
+- Current version: **0.4.1**
 
-## 0.4 architecture
+## Architecture
 
-0.4 では Agentic Engineering 自身が execution engine になることをやめました。
+Agentic Engineering does not act as the execution engine.
 
 ```text
 Engineering objective
-       │
-       ▼
+       |
+       v
 agentic-engineering
   project facts / constraints
   durable engineering state
   verification requirements
   Git / PR topology
-       │
-       ├───────────────┐
-       ▼               ▼
+       |
+       +---------------+
+       v               v
 Claude Code          Codex
 ultracode            Ultra
 Dynamic Workflows    proactive multi-agent
-       │               │
-       └──── native execution topology ────┘
+       |               |
+       +---- native execution topology ----+
 ```
 
-**Execution topology** は runtime native orchestration が決めます。
+The runtime owns **execution topology**:
 
-- agent 数
-- task decomposition
-- fan-out
-- staged execution
-- runtime verification passes
-- transient workflow state
+- agent count;
+- task decomposition;
+- fan-out;
+- staged execution;
+- runtime verification passes;
+- transient workflow state.
 
-**Engineering policy** は Agentic Engineering が決めます。
+Agentic Engineering owns **engineering policy**:
 
-- project-specific constraints
-- safe parallel-write boundaries
-- durable cross-session state
-- dependency/version policy
-- required verification evidence
-- single PR / independent PR / Stacked PR
+- project-specific constraints;
+- safe parallel-write boundaries;
+- durable cross-session state;
+- dependency/version policy;
+- required verification evidence;
+- single PR / independent PR / Stacked PR topology.
 
 ## Claude Code
 
-この project は ultracode を前提とします。
+This project assumes **ultracode**.
 
-Template は `.claude/settings.json` で ultracode を要求し、setup/doctor は current CLI が `--effort ultracode` を受け付けることを確認します。
+The project template requests ultracode in `.claude/settings.json`, and setup/doctor checks verify that the current CLI accepts `--effort ultracode`.
 
-ultracode では xhigh reasoning に加え、substantive task について Claude が Dynamic Workflow を使うか自動判断します。Plugin は investigator / planner / worker / reviewer / verifier を固定で先に割り当てません。
+With ultracode, Claude decides whether a substantive task should use a Dynamic Workflow. The Plugin does not pre-allocate investigator, planner, worker, reviewer, or verifier agents before the native workflow makes that decision.
 
-bundled custom agents は fallback specialist です。
+Bundled custom agents are fallback specialists.
 
-直接インストール:
+Install directly:
 
 ```bash
 claude plugin marketplace add calorie/agentic-engineering
 claude plugin install agentic-engineering@agentic-engineering
 ```
 
-明示的に ultracode session を開始する場合:
+Start an explicit ultracode session when needed:
 
 ```bash
 claude --effort ultracode
@@ -72,7 +72,7 @@ claude --effort ultracode
 
 ## Codex
 
-Template の `.codex/config.toml` は次を要求します。
+The project template requests:
 
 ```toml
 model_reasoning_effort = "ultra"
@@ -81,9 +81,9 @@ model_reasoning_effort = "ultra"
 enabled = true
 ```
 
-Codex Ultra は maximum reasoning に加えて automatic task delegation を有効にするため、Claude ultracode と同様に runtime 自身へ execution topology を任せます。
+Codex Ultra is expected to own execution topology through proactive delegation rather than copying Claude's Dynamic Workflow graph.
 
-直接インストール:
+Install directly:
 
 ```bash
 codex plugin marketplace add calorie/agentic-engineering \
@@ -93,17 +93,17 @@ codex plugin marketplace add calorie/agentic-engineering \
 codex plugin add agentic-engineering@agentic-engineering
 ```
 
-Codex IDE extension は Plugin 非対応です。その surface では `AGENTS.md` が fallback policy になります。完全な Plugin / Hooks / Skills を使う場合は Codex CLI または対応する Codex surface を使ってください。
+The Codex IDE extension does not currently support Plugins. On that surface, `AGENTS.md` remains the fallback policy. Use Codex CLI or another Plugin-capable Codex surface for the full Plugin / Hooks / Skills behavior.
 
-## Template から使う
+## Use the project template
 
-新規 repository:
+For a new repository:
 
 ```bash
 ./scripts/setup-agentic.sh
 ```
 
-その後は通常どおり:
+Then start the runtime you want:
 
 ```bash
 claude
@@ -111,35 +111,35 @@ claude
 codex
 ```
 
-ユーザーは通常 engineering objective だけを入力します。
+The user should normally provide only the engineering objective:
 
 ```text
-ユーザー検索機能を追加して。名前とメールアドレスで検索できるようにする。
+Add user search by name and email address.
 ```
 
-agent 数、parallelism、worktree allocation、context cleanup、reviewer creation、PR topology を毎回指定する必要はありません。
+The user should not need to manage agent count, parallelism, worktree allocation, context cleanup, reviewer creation, or PR topology.
 
-## Parallel write guardrail
+## Parallel-write guardrails
 
-Native runtime に大半を任せますが、次は共通制約です。
+Native runtimes own most execution decisions, but the following constraints remain shared:
 
-- same checkout に複数 writer を同時に置かない
-- parallel write は isolated worktree / checkout + disjoint ownership がある場合だけ
-- DB schema / ordered migration / unstable shared interface は synchronization boundary
-- dependent Stacked PR layers は dependency order を維持
-- unrelated user changes を revert しない
+- never place multiple writers in the same checkout at the same time;
+- allow parallel writes only with isolated worktrees/checkouts and disjoint ownership;
+- treat shared DB schemas, ordered migrations, and unstable shared interfaces as synchronization boundaries;
+- preserve dependency order for dependent Stacked PR layers;
+- never revert unrelated user changes.
 
 ## Durable state
 
-Runtime-native workflow state と engineering state を分離します。
+Separate runtime-native workflow state from durable engineering state.
 
-Runtime に任せる:
+Leave these to the runtime:
 
-- Claude Dynamic Workflow agent graph / checkpoints
-- Codex Ultra subagent execution / thread state
-- transient logs / scratch queue
+- Claude Dynamic Workflow agent graphs and checkpoints;
+- Codex Ultra subagent execution and thread state;
+- transient logs and scratch queues.
 
-Repository に残す:
+Persist these in the repository only when needed:
 
 ```text
 .agentic/PROJECT.md
@@ -149,23 +149,25 @@ Repository に残す:
 └── DECISIONS.md
 ```
 
-`COMPACT.md` / `RUNTIME.md` は fallback diagnostics です。runtime が既に保持している transient state を重複保存しません。
+`COMPACT.md` and `RUNTIME.md` are fallback diagnostics rather than primary state. Do not duplicate transient state the runtime already preserves.
 
 ## Review topology
 
-複数 agent が動いたかどうかと PR 分割は独立です。
+Execution topology and PR topology are separate concerns.
 
-- one focused reviewable change -> one PR
-- independent reviewable changes -> independent PRs
-- dependent but separately reviewable changes -> GitHub Stacked PR
+- one focused reviewable change -> one PR;
+- independent reviewable changes -> independent PRs;
+- dependent but separately reviewable changes -> GitHub Stacked PRs.
+
+Do not split PRs merely because multiple agents were used.
 
 ## Dependency policy
 
-- latest stable compatible dependency
-- lockfile update when supported
-- GitHub Actions latest stable release pinned by full commit SHA
-- Dependabot for continuing updates
-- pre-release only with an explicit reason
+- use the latest stable dependency version compatible with project constraints;
+- update lockfiles when supported;
+- pin GitHub Actions to the full commit SHA of the latest stable release;
+- use Dependabot for continuing updates;
+- use pre-release versions only for an explicit reason.
 
 ## Plugin structure
 
@@ -192,8 +194,8 @@ python3 -m py_compile plugins/agentic-engineering/scripts/*.py
 
 ## Versioning
 
-Claude Marketplace、Claude manifest、portable manifest、Codex manifest の version を同時に更新します。
+Keep the Claude Marketplace version, Claude manifest version, portable manifest version, and Codex manifest version synchronized.
 
 ## Security
 
-Plugin hooks はローカルコマンドを実行できます。信頼できる Marketplace のみ利用してください。Codex の unmanaged hooks は初回に trust review が必要です。
+Plugin hooks can execute local commands. Install Plugins only from a Marketplace you trust. Codex requires trust review for unmanaged hooks on first use.
