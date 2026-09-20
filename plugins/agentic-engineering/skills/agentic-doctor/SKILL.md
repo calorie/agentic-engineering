@@ -8,19 +8,19 @@ allowed-tools: ["Read", "Glob", "Grep", "Bash"]
 
 # Agentic Engineering Doctor
 
-PASS / WARN / FAIL で確認する。
+Report each check as PASS, WARN, or FAIL.
 
-1. Git repository。
-2. `.agentic/PROJECT.md` / `.agentic/agentic.json`。
-3. Agentic schema が native-first policy を宣言している。
-4. Claude adapter がある場合、Plugin enabled と ultracode request がある。
-5. Claude CLI がある場合、`--effort ultracode` を受理する。
-6. Codex adapter がある場合、`model_reasoning_effort = "ultra"` と `[agents] enabled = true`。
-7. Codex Plugin が installed/enabled。
-8. `git worktree`。
-9. `gh auth status`。
-10. `gh stack --help`。
-11. active long task がある場合、SPEC / STATE が読める。
-12. runtime transient state と durable engineering state を重複保存していない。
+1. Confirm this is a Git repository.
+2. Confirm `.agentic/PROJECT.md` and `.agentic/agentic.json` exist.
+3. Confirm the Agentic schema declares the native-first policy.
+4. If the Claude adapter is present, confirm the Plugin is enabled and ultracode is requested.
+5. If the Claude CLI is present, confirm it accepts `--effort ultracode`.
+6. If the Codex adapter is present, confirm `model_reasoning_effort = "ultra"` and `[agents] enabled = true`.
+7. Confirm the Codex Plugin is installed and enabled.
+8. Confirm `git worktree` is available.
+9. Confirm `gh auth status` succeeds.
+10. Confirm `gh stack --help` is available.
+11. If an active long-running task exists, confirm its SPEC and STATE can be read.
+12. Confirm transient runtime state is not being duplicated into durable engineering state.
 
-Native runtime の実効 capability が account/model/admin policy で制限される場合は、その制限を明示する。設定を勝手に破壊的変更しない。
+If effective runtime capabilities are restricted by account, model, or administrator policy, state that limitation explicitly. Do not make destructive configuration changes automatically.
