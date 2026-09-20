@@ -1,57 +1,67 @@
 ---
 name: long-task
-description: This skill should be used when work is likely to span multiple sessions, context compactions, several pull requests, a long migration, or a sequence of dependent implementation phases. It externalizes only durable state so work can resume without relying on chat history.
-version: 0.2.0
+description: Use this skill when engineering state must survive across sessions, runtimes, humans, or several pull requests. Keep durable product/engineering state while leaving transient agent graphs, workflow queues, and runtime checkpoints to Claude Code or Codex native orchestration.
+version: 0.4.0
 ---
 
-# 長期タスク状態管理
+# Durable engineering state
 
-会話履歴を唯一の状態にしない。必要になった時点で `.agent/tasks/<task>/` を作る。
+Do not use chat history as the only source of truth, but also do not mirror native runtime internals into repository state.
 
-## ファイル
+Create `.agent/tasks/<task>/` only when work genuinely crosses sessions, runtimes, PRs, or human handoffs.
 
-### `SPEC.md`
+## SPEC.md
 
-安定した情報だけを置く:
-- goal
-- acceptance criteria
-- constraints
-- non-goals
-- 重要な interface 契約
+Stable contract:
 
-### `STATE.md`
+- goal;
+- acceptance criteria;
+- constraints;
+- non-goals;
+- important external/interface contracts.
 
-現在進行形の情報だけを置く:
-- 現在の branch / stack layer
-- 完了済み項目
-- 変更済みファイルの要点
-- verification と結果
-- blocker
-- 次の具体的アクション
+SPEC should change rarely.
 
-### `COMPACT.md` / `RUNTIME.md`
+## STATE.md
 
-Plugin hooks が自動生成する local runtime state。`COMPACT.md` は直近の auto/manual compaction summary、`RUNTIME.md` は session 終了時の branch / HEAD / working-tree snapshot。手動編集を前提にしない。Git 管理外とする。
+Cross-session engineering progress:
 
-### `DECISIONS.md`
+- current branch / PR / stack layer when relevant;
+- completed reviewable units;
+- important changed areas;
+- verification status;
+- blockers;
+- next concrete engineering action.
 
-将来の実装者が理由を知らないと再判断する重要事項だけを置く。ログにはしない。
+Do not record every subagent, tool call, workflow stage, or temporary hypothesis.
 
-## Active task
+## DECISIONS.md
 
-作業中タスク ID を `.agent/ACTIVE_TASK` に1行で記録する。SessionStart hook がこのファイルを見て STATE / SPEC を次セッションへ自動的に戻す。
+Only durable decisions whose rationale would otherwise be re-litigated later.
 
-## 更新タイミング
+## COMPACT.md / RUNTIME.md
 
-毎 tool call 後には更新しない。以下だけで更新する:
-- 設計が確定した
-- reviewable unit を完了した
-- blocker が変わった
-- session を終了する
-- compaction を跨ぎそう
+Hooks may generate these as local fallback diagnostics.
 
-## 完了
+- `COMPACT.md`: last available compaction summary.
+- `RUNTIME.md`: branch / HEAD / working-tree snapshot.
 
-タスク完了後は `.agent/ACTIVE_TASK` を削除する。STATE は既定で Git 管理外とし、SPEC / DECISIONS はチーム共有の価値がある場合だけ commit する。
+They are not the source of truth when Claude Dynamic Workflows or Codex session state already preserve transient progress.
 
-詳細な雛形は `references/templates.md` を参照する。
+## ACTIVE_TASK
+
+Use `.agent/ACTIVE_TASK` only for a task that genuinely requires durable cross-session state.
+
+Remove it when the engineering task is complete.
+
+## Checkpoints
+
+Update durable state at meaningful boundaries only:
+
+- acceptance criteria or architecture decision changed;
+- reviewable unit completed;
+- blocker changed;
+- PR/stack layer completed;
+- session/runtime handoff requires persistence.
+
+Native workflow progress should stay native.
