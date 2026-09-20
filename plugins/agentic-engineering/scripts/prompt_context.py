@@ -50,23 +50,25 @@ def main() -> None:
 
     if runtime == "Claude Code":
         execution = (
-            "Claude Code ultracode/Dynamic Workflows に execution topology、fan-out、agent 数、"
-            "runtime verification orchestration を任せる。Plugin の固定 custom-agent graph を先に作らない。"
+            "Delegate execution topology, fan-out, agent count, and runtime verification orchestration to "
+            "Claude Code ultracode/Dynamic Workflows. Do not build a fixed custom-agent graph first."
         )
     else:
         execution = (
-            "Codex Ultra の proactive delegation に execution topology と agent 数を任せる。"
-            "ユーザーへ subagent 利用を要求せず、Claude 固有 graph を模倣しない。"
+            "Delegate execution topology and agent count to Codex Ultra proactive delegation. "
+            "Do not require the user to request subagents and do not copy a Claude-specific graph into Codex."
         )
 
     parts = [
-        "実質的な開発要求では agentic-engineering:orchestrate を engineering-policy layer として適用する。",
+        "For substantive engineering requests, apply agentic-engineering:orchestrate as an engineering-policy layer.",
         execution,
-        "Agentic Engineering は project constraints、safe write isolation、durable engineering state、verification evidence、Git/PR topology を管理する。",
-        "人間に clear、compact、parallelism、agent 数を管理させない。",
+        "Agentic Engineering owns project constraints, safe write isolation, durable engineering state, verification evidence, and Git/PR topology.",
+        "Do not ask the user to manage clear, compact, parallelism, or agent count.",
     ]
     if stale:
-        parts.append("Project profile が未初期化または stale。現在タスクを始める前に project-bootstrap を軽量実行する。")
+        parts.append(
+            "The project profile is uninitialized or stale. Run a lightweight project-bootstrap before starting the substantive task."
+        )
 
     print(json.dumps({
         "hookSpecificOutput": {
