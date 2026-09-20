@@ -1,0 +1,30 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agentic-engineering",
+  "owner": {
+    "name": "Agentic Engineering Maintainers"
+  },
+  "metadata": {
+    "description": "プロジェクト横断で Claude Code のコンテキスト管理・並列化・長期タスク・GitHub Stacked PR を最適化する中央管理 Marketplace"
+  },
+  "plugins": [
+    {
+      "name": "agentic-engineering",
+      "displayName": "Agentic Engineering",
+      "description": "Claude Code の実装タスクを自動的に分解・委譲・検証し、長期タスクと Stacked PR を管理する汎用開発オーケストレーション",
+      "version": "0.2.0",
+      "author": {
+        "name": "Agentic Engineering Maintainers"
+      },
+      "category": "development",
+      "tags": [
+        "orchestration",
+        "coding",
+        "worktree",
+        "stacked-pr",
+        "long-running"
+      ],
+      "source": "./plugins/agentic-engineering"
+    }
+  ]
+}

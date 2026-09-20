@@ -1,0 +1,10 @@
+{
+  "name": "agentic-engineering",
+  "displayName": "Agentic Engineering",
+  "version": "0.2.0",
+  "description": "Claude Code のコンテキストを control-plane と fresh task context に分離し、プロジェクト自動発見、並列化、長期タスク、GitHub Stacked PR を自動選択する汎用オーケストレーションプラグイン",
+  "author": {
+    "name": "Agentic Engineering Maintainers"
+  },
+  "homepage": "https://github.com/__GITHUB_OWNER__/agentic-engineering"
+}
