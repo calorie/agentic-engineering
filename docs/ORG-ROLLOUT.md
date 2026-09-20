@@ -1,50 +1,52 @@
-# 組織向け中央配布
+# Organization rollout
 
-agentic-engineering 0.4 は **native proactive orchestration + shared engineering policy** を組織へ配布する。
+Agentic Engineering 0.4.x distributes a **native proactive orchestration + shared engineering policy** model across Claude Code and Codex environments.
 
 ## Execution baseline
 
 Claude Code:
-- ultracode / Dynamic Workflows を primary execution engine とする。
-- account/model/admin policy が workflows または xhigh を制限する場合、その制限が優先される。
+
+- use ultracode / Dynamic Workflows as the primary execution engine;
+- account, model, or administrator restrictions on workflows or xhigh reasoning take precedence.
 
 Codex:
-- project config で `model_reasoning_effort = "ultra"` を要求する。
-- Ultra 対応 account/model では proactive task delegation を primary execution engine とする。
 
-Agentic Engineering が agent count や固定 worker graph を組織標準として hardcode しない。
+- request `model_reasoning_effort = "ultra"` in project configuration;
+- on supported accounts/models, use proactive task delegation as the primary execution engine.
+
+Do not hardcode agent count or a fixed worker graph as an organization-wide policy.
 
 ## Central policy
 
-中央 Plugin に置く:
+Keep these in the central Plugin:
 
-- project discovery policy
-- parallel-write safety boundaries
-- durable engineering state protocol
-- verification requirements
-- dependency/version policy
-- GitHub review topology / Stacked PR policy
-- runtime adapter / safe fallback
+- project discovery policy;
+- parallel-write safety boundaries;
+- durable engineering-state protocol;
+- verification requirements;
+- dependency/version policy;
+- GitHub review topology and Stacked PR policy;
+- runtime adapters and safe fallbacks.
 
-各 project に置く:
+Keep these in each project:
 
-- `AGENTS.md`
-- `CLAUDE.md` / `.claude/settings.json`
-- `.codex/config.toml`
-- `.agentic/PROJECT.md`
-- project-specific architecture / test / migration facts
+- `AGENTS.md`;
+- `CLAUDE.md` and `.claude/settings.json`;
+- `.codex/config.toml`;
+- `.agentic/PROJECT.md`;
+- project-specific architecture, test, migration, and compatibility facts.
 
 ## Distribution
 
-Claude Code organization management では Marketplace を接続し、必要に応じて Plugin を Required / Installed by default として配布する。
+For Claude Code organization management, connect the Marketplace and distribute the Plugin as Required or Installed by default as appropriate.
 
-Codex / ChatGPT workspace では対応する Plugin Marketplace / directory policy で配布する。Codex IDE extension は Plugin 非対応のため `AGENTS.md` が fallback policy になる。
+For Codex / ChatGPT workspaces, distribute through the supported Plugin Marketplace or directory policy. The Codex IDE extension does not currently support Plugins, so `AGENTS.md` remains the fallback policy there.
 
 ## Stability
 
-- Plugin slug を維持する。
-- portable / Claude / Codex manifests の version を揃える。
-- policy changes は PR + CI + CHANGELOG + version bump を通す。
-- generic policy を project ごとに複製しない。
-- runtime-native capability が進化したら custom orchestration を増やすのではなく adapter を薄くする。
-- project-specific facts を中央 Plugin に hardcode しない。
+- Keep the Plugin slug stable.
+- Keep portable, Claude, and Codex manifest versions synchronized.
+- Require PR + CI + CHANGELOG + version bump for policy changes.
+- Do not copy generic policy into each project.
+- As runtime-native capabilities improve, make adapters thinner instead of adding custom orchestration.
+- Do not hardcode project-specific facts in the central Plugin.
