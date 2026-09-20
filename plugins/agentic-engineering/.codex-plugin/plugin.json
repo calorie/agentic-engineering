@@ -1,7 +1,7 @@
 {
   "name": "agentic-engineering",
-  "version": "0.4.1",
-  "description": "An engineering policy plugin that uses Codex Ultra proactive multi-agent execution as the primary engine while enforcing project constraints, durable engineering state, verification, and Git/PR topology.",
+  "version": "0.4.2",
+  "description": "An engineering policy plugin that keeps Codex Ultra in charge of proactive multi-agent execution while composing with Superpowers methodology without nested scheduling.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
@@ -12,6 +12,9 @@
     "longDescription": "Keep Codex Ultra in charge of delegation while enforcing project constraints, durable state, verification evidence, and Git/PR topology.",
     "developerName": "Agentic Engineering Maintainers",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"]
+    "capabilities": [
+      "Read",
+      "Write"
+    ]
   }
 }
