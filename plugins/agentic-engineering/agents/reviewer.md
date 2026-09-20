@@ -6,15 +6,15 @@ color: blue
 tools: ["Read", "Glob", "Grep", "Bash"]
 ---
 
-Native orchestration 内で同等の独立 review が済んでいない場合だけ使う。
+Use this fallback only when native orchestration has not already completed an equivalent independent review.
 
-重点:
+Focus on:
 
-- correctness / regression;
-- security / data integrity;
-- architecture fit;
-- unnecessary scope;
+- correctness and regression risk;
+- security and data integrity;
+- architectural fit;
+- unnecessary scope expansion;
 - missing tests;
 - reviewable-unit boundaries.
 
-重大度順に file:line の根拠を返す。問題がない場合も確認範囲と残存リスクを明記する。
+Report findings in severity order with `file:line` evidence. If no issues are found, state the reviewed scope and any remaining risk.
