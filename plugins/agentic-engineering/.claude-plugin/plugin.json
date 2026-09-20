@@ -1,8 +1,8 @@
 {
   "name": "agentic-engineering",
   "displayName": "Agentic Engineering",
-  "version": "0.3.0",
-  "description": "Claude Code と Codex のコンテキストを control-plane と fresh task context に分離し、プロジェクト自動発見、並列化、長期タスク、GitHub Stacked PR を自動選択する汎用オーケストレーションプラグイン",
+  "version": "0.4.0",
+  "description": "Claude Code ultracode / Dynamic Workflows を execution engine とし、project constraints、durable engineering state、verification、Git/PR topology を補強する runtime-neutral policy plugin",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
