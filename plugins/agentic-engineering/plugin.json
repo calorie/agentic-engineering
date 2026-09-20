@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agentic-engineering",
-  "version": "0.3.0",
-  "description": "Claude Code と Codex のコンテキスト管理、プロジェクト自動発見、並列化、長期タスク、GitHub Stacked PR を自動選択する汎用ソフトウェア開発オーケストレーション",
+  "version": "0.4.0",
+  "description": "Claude Code ultracode と Codex Ultra の native proactive multi-agent orchestration を活かし、project policy、durable state、verification、GitHub review topology を統一する engineering plugin",
   "author": {
     "name": "Agentic Engineering Maintainers",
     "url": "https://github.com/calorie"
@@ -11,6 +11,8 @@
   "repository": "https://github.com/calorie/agentic-engineering",
   "keywords": [
     "software-engineering",
+    "ultracode",
+    "codex-ultra",
     "orchestration",
     "context-management",
     "subagents",
@@ -24,8 +26,8 @@
       ],
       "interface": {
         "displayName": "Agentic Engineering",
-        "shortDescription": "Autonomous software-engineering orchestration",
-        "longDescription": "Keep the root context lean while automatically selecting subagents, worktrees, long-task state, review, verification, and GitHub stacked pull requests.",
+        "shortDescription": "Native-first engineering policy",
+        "longDescription": "Use Claude Code ultracode or Codex Ultra for execution topology while enforcing project constraints, durable state, verification evidence, and Git/PR topology.",
         "developerName": "Agentic Engineering Maintainers",
         "category": "Productivity",
         "capabilities": ["Read", "Write"]
