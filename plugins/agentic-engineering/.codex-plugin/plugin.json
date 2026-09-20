@@ -6,7 +6,6 @@
     "name": "Agentic Engineering Maintainers"
   },
   "skills": "./skills/",
-  "hooks": "./hooks/hooks.codex.json",
   "interface": {
     "displayName": "Agentic Engineering",
     "shortDescription": "Autonomous software-engineering orchestration",
