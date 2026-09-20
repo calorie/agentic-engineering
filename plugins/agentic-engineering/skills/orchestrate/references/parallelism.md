@@ -1,20 +1,36 @@
-# 並列化判断リファレンス
+# Native-first parallelism
 
-## 目的
+## Principle
 
-同時実行数ではなく、統合済み変更の throughput を最大化する。
+Do not optimize agent count. Optimize **correct merged throughput**.
 
-## 判定表
+Claude Code ultracode/Dynamic Workflows and Codex Ultra own task decomposition, fan-out, staging, and agent count. Agentic Engineering supplies only the boundaries the runtime must not violate.
 
-| 状況 | 既定 |
+## Hard boundaries
+
+| Situation | Constraint |
 |---|---|
-| 読み取り中心の独立調査 | 並列 |
-| fresh review と verification | 実装後に並列可 |
-| 異なるモジュール、interface 確定済み | worktree 並列 |
-| 同一ファイル | 逐次 |
-| 共有 schema / migration | 逐次 |
-| producer-consumer で契約未確定 | 契約確定まで逐次 |
-| Stacked PR の依存レイヤー | 逐次 |
-| 大量の独立した機械変更 | worktree worker / batch 系を検討 |
+| Independent read-only investigation | Native runtime may parallelize freely |
+| Independent implementation in isolated worktrees/checkouts | Native runtime may parallelize |
+| Same checkout with multiple writers | Do not parallelize writes |
+| Same file or generated source | Serialize writes |
+| Shared DB schema / ordered migration | Serialize mutation order |
+| Producer/consumer with unstable interface | Stabilize contract before parallel writes |
+| Dependent Stacked PR layers | Preserve dependency order |
+| Independent review / adversarial verification | Native runtime may parallelize |
 
-CPU・メモリ・I/O を大量消費する build/test を全 worker で同時に走らせる必要はない。リソース飽和が見える場合、worker 数ではなく重い検証の concurrency を下げる。
+## Runtime mapping
+
+### Claude Code ultracode
+
+Let Dynamic Workflows generate the harness. Do not replace it with a fixed set of Plugin subagents.
+
+### Codex Ultra
+
+Let proactive multi-agent delegation choose subagents. Do not require explicit user delegation and do not recreate Claude-specific workflow structure.
+
+## Resource contention
+
+Source isolation does not imply CPU, memory, database, emulator, port, or CI isolation.
+
+If parallel workers contend on a scarce resource, reduce concurrency for the scarce operation rather than disabling useful parallel exploration.
