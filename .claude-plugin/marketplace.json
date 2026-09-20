@@ -5,25 +5,26 @@
     "name": "Agentic Engineering Maintainers"
   },
   "metadata": {
-    "description": "Claude Code と Codex のコンテキスト管理・並列化・長期タスク・GitHub Stacked PR を最適化する中央管理 Marketplace"
+    "description": "Claude Code ultracode と Codex Ultra を前提に、project policy・durable state・Git/PR topology を中央管理する Marketplace"
   },
   "plugins": [
     {
       "name": "agentic-engineering",
       "displayName": "Agentic Engineering",
-      "description": "Claude Code と Codex の実装タスクを自動的に分解・委譲・検証し、長期タスクと Stacked PR を管理する汎用開発オーケストレーション",
-      "version": "0.3.0",
+      "description": "Native proactive multi-agent orchestration を活かしつつ、project constraints、verification、long-task state、GitHub Stacked PR を runtime 横断で統一する engineering policy plugin",
+      "version": "0.4.0",
       "author": {
         "name": "Agentic Engineering Maintainers"
       },
       "category": "development",
       "tags": [
         "orchestration",
+        "ultracode",
+        "codex-ultra",
         "coding",
         "worktree",
         "stacked-pr",
-        "long-running",
-        "codex"
+        "long-running"
       ],
       "source": "./plugins/agentic-engineering"
     }
