@@ -5,14 +5,14 @@
     "name": "Agentic Engineering Maintainers"
   },
   "metadata": {
-    "description": "Claude Code ultracode と Codex Ultra を前提に、project policy・durable state・Git/PR topology を中央管理する Marketplace"
+    "description": "Central marketplace for engineering policy built around Claude Code ultracode and Codex Ultra, including durable state and Git/PR topology."
   },
   "plugins": [
     {
       "name": "agentic-engineering",
       "displayName": "Agentic Engineering",
-      "description": "Native proactive multi-agent orchestration を活かしつつ、project constraints、verification、long-task state、GitHub Stacked PR を runtime 横断で統一する engineering policy plugin",
-      "version": "0.4.0",
+      "description": "A runtime-neutral engineering policy plugin that uses native proactive multi-agent orchestration while standardizing project constraints, verification, durable state, and GitHub Stacked PRs.",
+      "version": "0.4.1",
       "author": {
         "name": "Agentic Engineering Maintainers"
       },
