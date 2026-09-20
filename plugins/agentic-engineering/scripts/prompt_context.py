@@ -62,6 +62,9 @@ def main() -> None:
     parts = [
         "For substantive engineering requests, apply agentic-engineering:orchestrate as an engineering-policy layer.",
         execution,
+        "If Superpowers skills are available, use methodology skills such as TDD, systematic debugging, and verification inside the native workflow. "
+        "Do not let subagent-driven-development, dispatching-parallel-agents, or executing-plans create a nested scheduler under native orchestration.",
+        "Deduplicate equivalent code review, verification, and worktree setup across the runtime, Superpowers, and Agentic Engineering.",
         "Agentic Engineering owns project constraints, safe write isolation, durable engineering state, verification evidence, and Git/PR topology.",
         "Do not ask the user to manage clear, compact, parallelism, or agent count.",
     ]
