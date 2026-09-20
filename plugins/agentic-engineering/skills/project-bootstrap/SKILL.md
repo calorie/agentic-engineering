@@ -1,30 +1,31 @@
 ---
 name: project-bootstrap
 description: Use this skill automatically before the first substantive development task when .agentic/PROJECT.md is pending, or when .agentic/PROFILE_STALE exists. It discovers only durable project-specific build, test, dependency, generated-code, and architecture facts so future tasks start with sufficient context without bloating CLAUDE.md.
-version: 0.2.0
+version: 0.4.1
 ---
 
-# プロジェクト自動発見
+# Project bootstrap
 
-人間へ初期設定を要求せず、最初の実質的な開発タスクの直前に一度だけ軽量 discovery を行う。stale marker がある場合も同様に差分だけ再確認する。
+Do not require manual initialization from the user. Run one lightweight discovery pass immediately before the first substantive engineering task. If the stale marker exists, re-check only the relevant changed facts.
 
-## 調査対象
+## Inspect
 
-- package / lock manifests (`package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `pom.xml`, Gradle, Bundler, Composer 等)
-- task runner / Makefile / CI workflows
-- README や開発ドキュメントにある実際の build / test / lint / typecheck コマンド
-- generated code の source of truth
-- 実装で繰り返し必要になる architecture invariant / compatibility constraint
+- package and lock manifests such as `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `pom.xml`, Gradle, Bundler, and Composer files;
+- task runners, Makefiles, and CI workflows;
+- actual build, test, lint, and typecheck commands documented in README or development docs;
+- generated-code sources of truth;
+- architecture invariants and compatibility constraints that repeatedly affect implementation.
 
-## 出力規則
+## Output rules
 
-- `.agentic/PROJECT.md` には **確実に確認でき、将来も繰り返し必要になる事実だけ** を短く書く。
-- ファイル一覧、一般論、長い説明、現在タスクだけの状態は書かない。
-- `<!-- agentic-profile: pending -->` を `<!-- agentic-profile: ready -->` に更新する。
-- `.agentic/PROFILE_STALE` があれば削除する。
-- 不明な項目を推測で埋めない。
+- Write only facts that are confirmed, durable, project-specific, and likely to matter repeatedly into `.agentic/PROJECT.md`.
+- Do not write file inventories, generic advice, long explanations, or state relevant only to the current task.
+- Replace `<!-- agentic-profile: pending -->` with `<!-- agentic-profile: ready -->`.
+- Remove `.agentic/PROFILE_STALE` when the refresh is complete.
+- Never guess unknown fields.
 
-## 依存更新基盤
+## Dependency-update baseline
 
-`.github/dependabot.yml` がある場合、検出した package ecosystem について project 構造が明確なときだけ適切な update entry を追加・維持する。monorepo の directory を推測しない。
-新規依存を追加するタスクでは、package manager / official registry で最新安定版を確認し、project の互換性制約を満たす最新版を選び lockfile を更新する。
+If `.github/dependabot.yml` exists, add or maintain update entries only when the detected package ecosystem and project directory structure are clear. Do not guess monorepo directories.
+
+When a task adds a dependency, check the package manager or official registry, select the latest stable version compatible with project constraints, and update the lockfile.
