@@ -76,6 +76,10 @@ if unsupported_codex_events:
 if "FileChanged" not in claude_hooks.get("hooks", {}):
     errors.append("Claude hook set should retain FileChanged profile invalidation")
 
+superpowers_reference = PLUGIN / "skills" / "orchestrate" / "references" / "superpowers-compatibility.md"
+if not superpowers_reference.exists():
+    errors.append("missing Superpowers compatibility reference")
+
 for skill in (PLUGIN / "skills").glob("*/SKILL.md"):
     text = skill.read_text(encoding="utf-8")
     if not text.startswith("---\n"):
