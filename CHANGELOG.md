@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.2
+
+- Added an explicit Superpowers compatibility contract.
+- Kept Claude ultracode / Dynamic Workflows and Codex Ultra as the sole default owners of execution topology.
+- Classified Superpowers TDD, systematic debugging, verification, and review disciplines as composable methodology.
+- Prevented nested scheduling from `subagent-driven-development`, `dispatching-parallel-agents`, and `executing-plans` when native proactive orchestration is active.
+- Added deduplication rules for code review, verification, and worktree setup.
+- Added compatibility guidance for brainstorming, planning, worktree lifecycle, and branch-finishing skills.
+
 ## 0.4.1
 
 - Converted all repository documentation, runtime prompts, agent instructions, manifests, comments, and examples to English.
