@@ -1,40 +1,45 @@
 # Changelog
 
+## 0.4.1
+
+- Converted all repository documentation, runtime prompts, agent instructions, manifests, comments, and examples to English.
+- Added English-only validation so Japanese text cannot be reintroduced accidentally.
+
 ## 0.4.0
 
-- Claude Code は ultracode / Dynamic Workflows を primary execution engine とする native-first architecture に変更
-- Codex は project-level `model_reasoning_effort = "ultra"` を前提とし、proactive multi-agent delegation を primary execution engine とする方針へ変更
-- Plugin が固定 agent graph / agent count を先に決める挙動を廃止
-- bundled Claude custom agents を fallback specialist に変更
-- execution topology と Git/review topology を明確に分離
-- long-task state を durable engineering state に限定し、runtime-native workflow state の重複保存を抑制
-- root context には要求・決定・integration・verification evidence だけを残す方針へ簡素化
-- Claude/Codex の native orchestration が使えない場合のみ safe fallback を利用
+- Switched Claude Code to a native-first architecture with ultracode / Dynamic Workflows as the primary execution engine.
+- Switched Codex to project-level `model_reasoning_effort = "ultra"` with proactive multi-agent delegation as the primary execution engine.
+- Removed the policy of pre-allocating a fixed agent graph or agent count.
+- Reclassified bundled Claude custom agents as fallback specialists.
+- Explicitly separated execution topology from Git/review topology.
+- Limited long-task state to durable engineering state and reduced duplication of runtime-native workflow state.
+- Simplified root-context policy to requirements, decisions, integration state, and verification evidence.
+- Added safe fallbacks for environments where native orchestration is unavailable.
 
 ## 0.3.0
 
-- Codex CLI / ChatGPT desktop Codex 向けの native Marketplace を追加
-- portable Agent Plugins 1.0 manifest を追加
-- Codex compatibility manifest と Codex 対応 lifecycle hooks を追加
-- orchestrate Skill を Claude Code / Codex の runtime adapter 方式へ変更
-- Codex built-in explorer / worker と fresh subagent を使う安全な縮退戦略を追加
-- project profile の stale 判定を manifest 更新時刻からも検出するよう改善
-- Claude/Codex の manifest・version・hook 互換性を CI validation 対象に追加
+- Added a native Marketplace for Codex CLI and supported Codex surfaces.
+- Added a portable Agent Plugins 1.0 manifest.
+- Added a Codex compatibility manifest and lifecycle hooks.
+- Converted the orchestrate Skill to a Claude Code / Codex runtime-adapter model.
+- Added a safe fallback strategy using Codex built-in explorer / worker roles and fresh subagents.
+- Improved stale project-profile detection using manifest modification times.
+- Extended CI validation to Claude/Codex manifests, versions, and hook compatibility.
 
 ## 0.2.0
 
-- root session を control-plane 化し、manual `/clear` / `/compact` を通常運用から排除する context firewall を追加
-- project-bootstrap と manifest freshness tracking を追加
-- auto compaction summary / session runtime snapshot の durable local state を追加
-- GitHub Actions を checkout v7.0.1 / setup-python v7.0.0 の immutable SHA pin へ更新
-- Dependabot による GitHub Actions 更新を追加
-- `gh-stack` setup を latest stable への強制更新に変更
+- Added a context firewall that treats the root session as a control plane and removes manual `/clear` / `/compact` from normal operation.
+- Added project-bootstrap and manifest freshness tracking.
+- Added durable local state for automatic compaction summaries and session runtime snapshots.
+- Updated GitHub Actions to immutable SHA pins for checkout v7.0.1 and setup-python v7.0.0.
+- Added Dependabot updates for GitHub Actions.
+- Changed `gh-stack` setup to force-refresh the latest stable release.
 
 ## 0.1.0
 
-- 初期版
-- 自動オーケストレーション Skill
-- investigator / reviewer / verifier / worktree-worker / task-planner agents
-- 長期タスク状態管理
-- GitHub native Stacked PR workflow
-- SessionStart / UserPromptSubmit / PreCompact hooks
+- Initial release.
+- Added the automatic orchestration Skill.
+- Added investigator, reviewer, verifier, worktree-worker, and task-planner agents.
+- Added long-task state management.
+- Added the GitHub native Stacked PR workflow.
+- Added SessionStart, UserPromptSubmit, and PreCompact hooks.
