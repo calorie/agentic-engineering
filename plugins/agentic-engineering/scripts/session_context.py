@@ -23,7 +23,7 @@ def read_text(path: Path, limit: int) -> str:
     except (OSError, UnicodeError):
         return ""
     if len(text) > limit:
-        return text[:limit] + "\n…(省略)"
+        return text[:limit] + "\n...(truncated)"
     return text
 
 
@@ -57,28 +57,30 @@ def main() -> None:
 
     if runtime == "Claude Code":
         runtime_policy = (
-            "Claude Code ultracode / Dynamic Workflows を実行エンジンの第一選択とする。"
-            "Agentic Engineering は agent 数や固定 worker graph を決めず、project constraints、"
-            "verification requirements、durable engineering state、Git/PR topology だけを補強する。"
+            "Use Claude Code ultracode / Dynamic Workflows as the primary execution engine. "
+            "Agentic Engineering must not choose a fixed worker graph or agent count; it should add only project constraints, "
+            "verification requirements, durable engineering state, and Git/PR topology."
         )
     else:
         runtime_policy = (
-            "Codex Ultra の proactive multi-agent orchestration を実行エンジンの第一選択とする。"
-            "Agentic Engineering は agent 数や固定 worker graph を決めず、project constraints、"
-            "verification requirements、durable engineering state、Git/PR topology だけを補強する。"
+            "Use Codex Ultra proactive multi-agent orchestration as the primary execution engine. "
+            "Agentic Engineering must not choose a fixed worker graph or agent count; it should add only project constraints, "
+            "verification requirements, durable engineering state, and Git/PR topology."
         )
 
     chunks = [
-        "Agentic Engineering 0.4 native-first policy が有効です。人間に context clear、parallelism、agent 数の管理を委ねないでください。",
+        "Agentic Engineering 0.4 native-first policy is active. Do not make the user manage context cleanup, parallelism, or agent count.",
         runtime_policy,
     ]
 
     project_path = cwd / ".agentic" / "PROJECT.md"
     project = read_text(project_path, MAX_PROJECT_CHARS)
     if project:
-        chunks.append("プロジェクト固有情報:\n" + project)
+        chunks.append("Project-specific context:\n" + project)
     if profile_is_stale(cwd, project_path, project):
-        chunks.append("Project profile は未初期化または stale。次の実質的な開発要求で project-bootstrap を適用してください。")
+        chunks.append(
+            "The project profile is uninitialized or stale. Apply project-bootstrap before the next substantive engineering task."
+        )
 
     active_file = cwd / ".agent" / "ACTIVE_TASK"
     task_id = read_text(active_file, 256).splitlines()[0].strip() if active_file.exists() else ""
@@ -95,7 +97,7 @@ def main() -> None:
             if value:
                 pieces.append(f"{title}:\n{value}")
         if pieces:
-            chunks.append(f"再開対象の長期タスク: {task_id}\n" + "\n\n".join(pieces))
+            chunks.append(f"Long-running task to resume: {task_id}\n" + "\n\n".join(pieces))
 
     hook_output = {
         "hookEventName": "SessionStart",
