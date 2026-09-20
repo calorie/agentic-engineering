@@ -4,7 +4,7 @@ Agentic Engineering is a runtime-neutral Agent Plugin / Marketplace that uses **
 
 - Marketplace: https://github.com/calorie/agentic-engineering
 - Project Template: https://github.com/calorie/agentic-repo-template
-- Current version: **0.4.1**
+- Current version: **0.4.2**
 
 ## Architecture
 
@@ -118,6 +118,31 @@ Add user search by name and email address.
 ```
 
 The user should not need to manage agent count, parallelism, worktree allocation, context cleanup, reviewer creation, or PR topology.
+
+## Superpowers compatibility
+
+Superpowers is treated as a **methodology provider**, not as a second scheduler.
+
+Use methodology-oriented skills inside the runtime-native execution topology when useful:
+
+- `test-driven-development`;
+- `systematic-debugging`;
+- `verification-before-completion`;
+- `receiving-code-review`.
+
+Use `brainstorming`, `writing-plans`, `requesting-code-review`, `using-git-worktrees`, and `finishing-a-development-branch` conditionally and deduplicate work already performed by the native runtime.
+
+Under Claude ultracode / Dynamic Workflows or Codex Ultra, do not let these Superpowers skills take over execution topology:
+
+- `subagent-driven-development`;
+- `dispatching-parallel-agents`;
+- `executing-plans`.
+
+Their useful principles—fresh context, isolated work, verification, and review gates—should be expressed through the native runtime instead of nesting another scheduler.
+
+An explicit user request for a specific Superpowers execution workflow still takes precedence, subject to write-isolation and Git/review-topology constraints.
+
+See `plugins/agentic-engineering/skills/orchestrate/references/superpowers-compatibility.md`.
 
 ## Parallel-write guardrails
 
