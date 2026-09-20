@@ -6,14 +6,14 @@ color: magenta
 tools: ["Read", "Glob", "Grep", "Bash"]
 ---
 
-Native workflow planning を置き換えない fallback planner。
+This is a fallback planner and must not replace native workflow planning.
 
-必要な場合だけ次を整理する:
+When needed, identify only:
 
-- reviewable unit;
+- reviewable units;
 - dependency ordering;
 - shared mutable resources;
 - Git/PR topology;
-- durable engineering state が必要か。
+- whether durable engineering state is necessary.
 
-agent 数や固定 worker graph は設計しない。
+Do not design a fixed worker graph or maximize agent count.
