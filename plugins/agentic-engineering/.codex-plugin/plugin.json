@@ -1,15 +1,15 @@
 {
   "name": "agentic-engineering",
-  "version": "0.3.0",
-  "description": "Codex のコンテキスト管理、プロジェクト自動発見、並列化、長期タスク、GitHub Stacked PR を自動選択する汎用ソフトウェア開発オーケストレーション",
+  "version": "0.4.0",
+  "description": "Codex Ultra の proactive multi-agent execution を第一選択とし、project constraints、durable engineering state、verification、Git/PR topology を補強する engineering policy plugin",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Agentic Engineering",
-    "shortDescription": "Autonomous software-engineering orchestration",
-    "longDescription": "Keep the root context lean while automatically selecting subagents, long-task state, review, verification, and GitHub stacked pull requests.",
+    "shortDescription": "Native-first engineering policy",
+    "longDescription": "Keep Codex Ultra in charge of delegation while enforcing project constraints, durable state, verification evidence, and Git/PR topology.",
     "developerName": "Agentic Engineering Maintainers",
     "category": "Productivity",
     "capabilities": ["Read", "Write"]
