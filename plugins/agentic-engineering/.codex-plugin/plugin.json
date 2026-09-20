@@ -1,0 +1,18 @@
+{
+  "name": "agentic-engineering",
+  "version": "0.3.0",
+  "description": "Codex のコンテキスト管理、プロジェクト自動発見、並列化、長期タスク、GitHub Stacked PR を自動選択する汎用ソフトウェア開発オーケストレーション",
+  "author": {
+    "name": "Agentic Engineering Maintainers"
+  },
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.codex.json",
+  "interface": {
+    "displayName": "Agentic Engineering",
+    "shortDescription": "Autonomous software-engineering orchestration",
+    "longDescription": "Keep the root context lean while automatically selecting subagents, long-task state, review, verification, and GitHub stacked pull requests.",
+    "developerName": "Agentic Engineering Maintainers",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"]
+  }
+}
