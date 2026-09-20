@@ -11,8 +11,8 @@
     {
       "name": "agentic-engineering",
       "displayName": "Agentic Engineering",
-      "description": "A runtime-neutral engineering policy plugin that uses native proactive multi-agent orchestration while standardizing project constraints, verification, durable state, and GitHub Stacked PRs.",
-      "version": "0.4.1",
+      "description": "A runtime-neutral engineering policy plugin that uses native proactive multi-agent orchestration, composes with Superpowers methodology without nested scheduling, and standardizes project constraints, verification, durable state, and GitHub Stacked PRs.",
+      "version": "0.4.2",
       "author": {
         "name": "Agentic Engineering Maintainers"
       },
@@ -24,7 +24,8 @@
         "coding",
         "worktree",
         "stacked-pr",
-        "long-running"
+        "long-running",
+        "superpowers"
       ],
       "source": "./plugins/agentic-engineering"
     }
