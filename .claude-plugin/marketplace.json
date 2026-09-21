@@ -11,8 +11,8 @@
     {
       "name": "agentic-engineering",
       "displayName": "Agentic Engineering",
-      "description": "A minimal policy layer that keeps execution runtime-native, uses expensive orchestration selectively, and standardizes write isolation, durable state, verification, and Git/PR topology.",
-      "version": "0.5.0",
+      "description": "A minimal policy layer that makes native runtimes proactively optimize effort, context isolation, delegation, parallelism, durable state, verification, and Git/PR topology.",
+      "version": "0.5.1",
       "author": {
         "name": "Agentic Engineering Maintainers"
       },
