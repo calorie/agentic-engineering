@@ -1,52 +1,65 @@
 # Organization rollout
 
-Agentic Engineering 0.4.x distributes a **native proactive orchestration + shared engineering policy** model across Claude Code and Codex environments.
+Agentic Engineering 0.5.0 distributes a small shared engineering policy while leaving execution to Claude Code and Codex.
 
-## Execution baseline
+## Cost-aware baseline
+
+Do not standardize maximum effort as the organization default.
 
 Claude Code:
 
-- use ultracode / Dynamic Workflows as the primary execution engine;
-- account, model, or administrator restrictions on workflows or xhigh reasoning take precedence.
+- start ordinary work at the model default;
+- use Dynamic Workflows for long-running, codebase-wide, strongly parallelizable, hard-to-verify, or high-risk work;
+- treat ultracode as an optional session-level accelerator, not a repository requirement.
 
 Codex:
 
-- request `model_reasoning_effort = "ultra"` in project configuration;
-- on supported accounts/models, use proactive task delegation as the primary execution engine.
+- keep multi-agent capability available;
+- do not pin project-level Ultra reasoning for every task;
+- increase reasoning/delegation only when task complexity justifies the additional usage.
 
-Do not hardcode agent count or a fixed worker graph as an organization-wide policy.
+This policy is intended to maximize verified engineering throughput over time while reducing avoidable rate-limit pressure.
 
 ## Central policy
 
-Keep these in the central Plugin:
+Keep only generic cross-runtime rules in the central Plugin:
 
-- project discovery policy;
+- effort escalation guidance;
 - parallel-write safety boundaries;
-- durable engineering-state protocol;
-- verification requirements;
+- durable engineering-state conventions;
+- verification deduplication;
 - dependency/version policy;
 - GitHub review topology and Stacked PR policy;
-- runtime adapters and safe fallbacks.
+- methodology-plugin coexistence.
 
-Keep these in each project:
+Do not distribute custom schedulers, hook runtimes, worker pools, or context-management scripts when the native runtime already provides those capabilities.
+
+## Project overlay
+
+Keep project-specific configuration small:
 
 - `AGENTS.md`;
 - `CLAUDE.md` and `.claude/settings.json`;
 - `.codex/config.toml`;
 - `.agentic/PROJECT.md`;
-- project-specific architecture, test, migration, and compatibility facts.
+- optional `.agent/tasks/` durable state.
+
+## Methodology plugins
+
+Superpowers may provide TDD, debugging, planning, and verification methodology, but should not become a nested scheduler underneath native orchestration.
+
+Ponytail may bias implementation toward the simplest correct solution without overriding explicit requirements, safety, or repository invariants.
 
 ## Distribution
 
-For Claude Code organization management, connect the Marketplace and distribute the Plugin as Required or Installed by default as appropriate.
+Distribute the central Plugin through the supported Claude Code and Codex Marketplace mechanisms for your environment.
 
-For Codex / ChatGPT workspaces, distribute through the supported Plugin Marketplace or directory policy. The Codex IDE extension does not currently support Plugins, so `AGENTS.md` remains the fallback policy there.
+Account, model, plan, and administrator limits always take precedence over repository policy.
 
 ## Stability
 
 - Keep the Plugin slug stable.
 - Keep portable, Claude, and Codex manifest versions synchronized.
-- Require PR + CI + CHANGELOG + version bump for policy changes.
-- Do not copy generic policy into each project.
-- As runtime-native capabilities improve, make adapters thinner instead of adding custom orchestration.
-- Do not hardcode project-specific facts in the central Plugin.
+- Prefer deleting compatibility code when runtimes gain equivalent native capabilities.
+- Keep project-specific facts out of the central Plugin.
+- Revisit effort policy when model capability, pricing, or rate limits materially change.
