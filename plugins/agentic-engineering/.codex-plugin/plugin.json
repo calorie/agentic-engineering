@@ -1,7 +1,7 @@
 {
   "name": "agentic-engineering",
-  "version": "0.5.0",
-  "description": "Minimal engineering policy for Codex that keeps reasoning and multi-agent execution runtime-native and escalates expensive execution only when it adds value.",
+  "version": "0.5.1",
+  "description": "Minimal engineering policy for Codex that proactively uses native delegation and context isolation while automatically managing durable state, verification, and review topology.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
