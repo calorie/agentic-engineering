@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agentic-engineering",
-  "version": "0.5.0",
-  "description": "Minimal runtime-neutral engineering policy for Claude Code and Codex with cost-aware escalation, safe parallel writes, durable state, and GitHub review topology.",
+  "version": "0.5.1",
+  "description": "Minimal runtime-neutral engineering policy that proactively optimizes effort, context, delegation, parallelism, durable state, verification, and GitHub review topology.",
   "author": {
     "name": "Agentic Engineering Maintainers",
     "url": "https://github.com/calorie"
