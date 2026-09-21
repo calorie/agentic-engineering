@@ -1,15 +1,15 @@
 {
   "name": "agentic-engineering",
-  "version": "0.4.2",
-  "description": "An engineering policy plugin that keeps Codex Ultra in charge of proactive multi-agent execution while composing with Superpowers methodology without nested scheduling.",
+  "version": "0.5.0",
+  "description": "Minimal engineering policy for Codex that keeps reasoning and multi-agent execution runtime-native and escalates expensive execution only when it adds value.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Agentic Engineering",
-    "shortDescription": "Native-first engineering policy",
-    "longDescription": "Keep Codex Ultra in charge of delegation while enforcing project constraints, durable state, verification evidence, and Git/PR topology.",
+    "shortDescription": "Minimal native-first engineering policy",
+    "longDescription": "Keep scheduling native to Codex while standardizing write isolation, durable state, verification, methodology-plugin coexistence, and Git/PR topology.",
     "developerName": "Agentic Engineering Maintainers",
     "category": "Productivity",
     "capabilities": [
