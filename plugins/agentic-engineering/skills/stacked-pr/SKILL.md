@@ -1,7 +1,7 @@
 ---
 name: stacked-pr
 description: Use GitHub native stacked pull requests when changes are dependent but independently reviewable. Do not stack independent work or a single focused change.
-version: 0.5.0
+version: 0.5.1
 ---
 
 # GitHub Stacked Pull Requests
