@@ -1,8 +1,8 @@
 {
   "name": "agentic-engineering",
   "displayName": "Agentic Engineering",
-  "version": "0.5.0",
-  "description": "Minimal engineering policy for Claude Code: default effort for ordinary work, Dynamic Workflows for high-leverage work, and no custom scheduler.",
+  "version": "0.5.1",
+  "description": "Minimal engineering policy for Claude Code that proactively optimizes context, delegation, parallelism, durable state, verification, and review topology without a custom scheduler.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
