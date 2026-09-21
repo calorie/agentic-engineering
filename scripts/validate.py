@@ -25,8 +25,6 @@ codex_market = load_json(ROOT / ".agents" / "plugins" / "marketplace.json")
 claude_manifest = load_json(PLUGIN / ".claude-plugin" / "plugin.json")
 codex_manifest = load_json(PLUGIN / ".codex-plugin" / "plugin.json")
 portable_manifest = load_json(PLUGIN / "plugin.json")
-claude_hooks = load_json(PLUGIN / "hooks" / "hooks.json")
-codex_hooks = load_json(PLUGIN / "hooks" / "hooks.codex.json")
 
 for label, obj in [
     ("Claude marketplace", claude_market),
@@ -38,80 +36,49 @@ for label, obj in [
     if obj.get("name") != "agentic-engineering":
         errors.append(f"{label} name must be agentic-engineering")
 
-claude_market_version = claude_market.get("plugins", [{}])[0].get("version")
 versions = {
-    "Claude marketplace": claude_market_version,
+    "Claude marketplace": claude_market.get("plugins", [{}])[0].get("version"),
     "Claude manifest": claude_manifest.get("version"),
     "Codex manifest": codex_manifest.get("version"),
     "portable manifest": portable_manifest.get("version"),
 }
-if len({v for v in versions.values() if v is not None}) != 1:
+if set(versions.values()) != {"0.5.0"}:
     errors.append("version mismatch: " + ", ".join(f"{k}={v}" for k, v in versions.items()))
 
 if portable_manifest.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json":
     errors.append("portable plugin must use Agent Plugins 1.0 schema")
 
 openai_ext = portable_manifest.get("extensions", {}).get("com.openai", {})
-portable_hooks = openai_ext.get("hooks")
-if not isinstance(portable_hooks, list) or portable_hooks != ["./hooks/hooks.codex.json"]:
-    errors.append("portable OpenAI hooks must be a list pointing to ./hooks/hooks.codex.json")
+if "hooks" in openai_ext:
+    errors.append("0.5.0 must not declare Plugin hooks")
 
 codex_plugins = codex_market.get("plugins", [])
-if not codex_plugins:
-    errors.append("Codex marketplace must contain agentic-engineering plugin")
-else:
-    source = codex_plugins[0].get("source", {})
-    if source.get("path") != "./plugins/agentic-engineering":
-        errors.append("Codex marketplace local plugin path is invalid")
+if not codex_plugins or codex_plugins[0].get("source", {}).get("path") != "./plugins/agentic-engineering":
+    errors.append("Codex marketplace local plugin path is invalid")
 
-codex_events = set(codex_hooks.get("hooks", {}))
-unsupported_codex_events = codex_events - {
-    "PreToolUse", "PermissionRequest", "PostToolUse", "PreCompact", "PostCompact",
-    "UserPromptSubmit", "SubagentStop", "Stop", "Interrupt", "SessionStart",
-    "SubagentStart", "SessionEnd",
+required_skills = {
+    PLUGIN / "skills" / "orchestrate" / "SKILL.md",
+    PLUGIN / "skills" / "stacked-pr" / "SKILL.md",
 }
-if unsupported_codex_events:
-    errors.append(f"unsupported Codex hook events: {sorted(unsupported_codex_events)}")
+for skill in required_skills:
+    if not skill.exists():
+        errors.append(f"missing required skill: {skill}")
 
-if "FileChanged" not in claude_hooks.get("hooks", {}):
-    errors.append("Claude hook set should retain FileChanged profile invalidation")
+for legacy in ["agents", "hooks", "scripts"]:
+    if (PLUGIN / legacy).exists():
+        errors.append(f"legacy runtime directory must be removed: {PLUGIN / legacy}")
 
-superpowers_reference = PLUGIN / "skills" / "orchestrate" / "references" / "superpowers-compatibility.md"
-if not superpowers_reference.exists():
-    errors.append("missing Superpowers compatibility reference")
-
-for skill in (PLUGIN / "skills").glob("*/SKILL.md"):
-    text = skill.read_text(encoding="utf-8")
-    if not text.startswith("---\n"):
-        errors.append(f"missing frontmatter: {skill}")
-    if "\nname:" not in text or "\ndescription:" not in text:
-        errors.append(f"missing name/description: {skill}")
-
-for agent in (PLUGIN / "agents").glob("*.md"):
-    text = agent.read_text(encoding="utf-8")
-    if not text.startswith("---\n"):
-        errors.append(f"missing frontmatter: {agent}")
-    match = re.search(r"^name:\s*([a-z0-9-]+)\s*$", text, re.M)
-    if not match:
-        errors.append(f"invalid/missing Claude agent name: {agent}")
-
-# Keep the central distribution repository English-only. This checks every
-# tracked UTF-8 text file and intentionally treats CJK/Hiragana/Katakana text
-# as a validation failure.
 non_english_pattern = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uff66-\uff9f]")
 try:
-    tracked = subprocess.check_output(
-        ["git", "-C", str(ROOT), "ls-files", "-z"],
-        text=False,
-    ).split(b"\0")
+    tracked = subprocess.check_output(["git", "-C", str(ROOT), "ls-files", "-z"]).split(b"\0")
 except Exception as exc:
-    errors.append(f"could not enumerate tracked files for language validation: {exc}")
+    errors.append(f"could not enumerate tracked files: {exc}")
     tracked = []
 
 for raw_path in tracked:
     if not raw_path:
         continue
-    relative = raw_path.decode("utf-8", errors="strict")
+    relative = raw_path.decode("utf-8")
     path = ROOT / relative
     try:
         text = path.read_text(encoding="utf-8")
@@ -128,4 +95,4 @@ if errors:
         print("-", err)
     sys.exit(1)
 
-print("PASS: agentic-engineering Claude/Codex plugin structure and English-only policy")
+print("PASS: minimal 0.5.0 plugin structure")
