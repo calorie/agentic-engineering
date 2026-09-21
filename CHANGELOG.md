@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.1
+
+- Strengthened the contract from passive runtime ownership to proactive automatic optimization.
+- Added automatic primary-context protection through fresh subagent isolation for noisy/self-contained work.
+- Added automatic delegation and parallelism decisions without asking the user to choose agent count.
+- Added automatic long-task state creation and milestone maintenance for SPEC / STATE / DECISIONS.
+- Added automatic verification-scope selection and review deduplication.
+- Added automatic PR-topology selection, including Stacked PRs when dependency structure makes them beneficial.
+- Kept the implementation declarative: no hooks, custom schedulers, or runtime-management scripts were reintroduced.
+
 ## 0.5.0
 
 - Replaced always-on maximum-effort policy with cost-aware escalation.
