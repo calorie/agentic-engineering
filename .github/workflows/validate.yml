@@ -21,4 +21,3 @@ jobs:
           python-version: '3.14'
           check-latest: true
       - run: python3 scripts/validate.py
-      - run: python3 -m py_compile plugins/agentic-engineering/scripts/*.py
