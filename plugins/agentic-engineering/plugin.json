@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agentic-engineering",
-  "version": "0.4.2",
-  "description": "A runtime-neutral engineering plugin that uses Claude Code ultracode and Codex Ultra for native execution while composing safely with Superpowers methodology and standardizing durable state, verification, and GitHub review topology.",
+  "version": "0.5.0",
+  "description": "Minimal runtime-neutral engineering policy for Claude Code and Codex with cost-aware escalation, safe parallel writes, durable state, and GitHub review topology.",
   "author": {
     "name": "Agentic Engineering Maintainers",
     "url": "https://github.com/calorie"
@@ -11,24 +11,20 @@
   "repository": "https://github.com/calorie/agentic-engineering",
   "keywords": [
     "software-engineering",
-    "ultracode",
-    "codex-ultra",
     "orchestration",
-    "context-management",
-    "subagents",
+    "dynamic-workflows",
+    "codex",
     "worktree",
     "stacked-pr",
-    "superpowers"
+    "superpowers",
+    "ponytail"
   ],
   "extensions": {
     "com.openai": {
-      "hooks": [
-        "./hooks/hooks.codex.json"
-      ],
       "interface": {
         "displayName": "Agentic Engineering",
-        "shortDescription": "Native-first engineering policy",
-        "longDescription": "Use Claude Code ultracode or Codex Ultra for execution topology while enforcing project constraints, durable state, verification evidence, and Git/PR topology.",
+        "shortDescription": "Minimal native-first engineering policy",
+        "longDescription": "Keep execution native to the runtime while standardizing engineering constraints and review topology.",
         "developerName": "Agentic Engineering Maintainers",
         "category": "Productivity",
         "capabilities": [
