@@ -2,32 +2,35 @@
 
 Agentic Engineering is a deliberately small policy plugin for Claude Code and Codex.
 
-It does **not** implement its own scheduler, context engine, worker pool, or hook runtime. Native runtimes evolve faster and are better positioned to own those responsibilities.
+It does **not** implement its own scheduler, context engine, worker pool, or hook runtime. Instead, it tells native runtimes to automatically optimize execution around a user-provided engineering objective.
 
-Current version: **0.5.0**
+Current version: **0.5.1**
 
 ## Goal
 
-Maximize long-term verified engineering throughput, not model usage per task.
+Maximize long-term verified engineering throughput while minimizing human orchestration, model usage, and maintenance cost.
 
 ```text
 user objective
     |
     v
-runtime-native execution
+automatic optimization
     |
-    +-- ordinary work -> default effort
-    |
-    +-- high-leverage work -> workflow / higher effort
+    +-- effort
+    +-- context isolation
+    +-- delegation / parallelism
+    +-- durable task state
+    +-- verification
+    +-- PR topology
     |
     v
-Agentic Engineering constraints
+runtime-native execution
     |
-    +-- safe write isolation
-    +-- durable engineering state
-    +-- verification evidence
-    +-- Git / PR topology
+    v
+verified engineering result
 ```
+
+The user should not need to decide agent count, context cleanup, worktree allocation, long-task state, reviewer creation, or PR topology.
 
 ## Cost-aware execution
 
@@ -35,46 +38,41 @@ Agentic Engineering constraints
 
 Start at the model default.
 
-Use Dynamic Workflows for work that is long-running, codebase-wide, strongly parallelizable, hard to verify manually, or expensive to get wrong.
+For high-leverage work, proactively use native Dynamic Workflows when available and beneficial.
 
-`ultracode` is useful as a **session-level accelerator**, but it is intentionally not required by the repository. Dynamic Workflows use substantially more tokens than typical sessions, so always-on ultracode is not the default policy.
-
-To opt into one ultracode session:
+`ultracode` is an optional session-level accelerator, not a repository requirement.
 
 ```bash
 claude --effort ultracode
 ```
 
-You can also ask Claude to use a Dynamic Workflow directly when that is the right execution shape.
+Always-on maximum effort is intentionally avoided so ordinary work does not consume disproportionate usage.
 
 ### Codex
 
-The project template keeps multi-agent capability enabled but does not pin `model_reasoning_effort = "ultra"`.
+Keep multi-agent capability enabled without pinning `model_reasoning_effort = "ultra"`.
 
-Use normal reasoning for ordinary work and escalate/delegate when complexity justifies the additional usage.
+Use the runtime/model default for ordinary work. Proactively delegate or increase reasoning when the task benefits enough to justify the additional usage.
 
-## Methodology plugins
+## Automatic context optimization
 
-Superpowers and Ponytail are complementary when responsibilities stay separate.
+Keep the primary context focused on requirements, decisions, integration state, blockers, and final evidence.
 
-- **Superpowers**: methodology such as TDD, systematic debugging, and verification. Do not nest another scheduler under an active native scheduler.
-- **Ponytail**: prefer the simplest correct implementation. Explicit requirements, safety, and project invariants take precedence.
+Automatically push noisy or self-contained investigation, search, logs, test analysis, review, and isolated implementation into fresh subagent contexts when only the conclusion is needed.
 
-## Shared engineering policy
+Use runtime-native compaction. Do not make the user manage context cleanup.
 
-- never use multiple concurrent writers in one checkout;
-- parallel writes require isolated worktrees/checkouts and disjoint ownership;
-- do not duplicate equivalent planning, review, verification, or worktree setup;
-- keep transient runtime state in the runtime;
-- persist only durable cross-session engineering information;
-- choose one PR, independent PRs, or Stacked PRs from review dependencies, not agent count;
-- never revert unrelated user changes.
+## Automatic parallelism
 
-## Durable state
+Automatically parallelize independent work when it materially improves elapsed time, context quality, or independent verification.
 
-Use `.agentic/PROJECT.md` for durable project facts.
+Choose agent count automatically.
 
-For long-running work, use only what is needed:
+Parallel writes require isolated worktrees/checkouts and disjoint ownership. Never use concurrent writers in the same checkout.
+
+## Automatic long-task state
+
+When work is likely to cross sessions, runtimes, pull requests, or human handoff, automatically maintain:
 
 ```text
 .agent/tasks/<task>/
@@ -82,6 +80,27 @@ For long-running work, use only what is needed:
 ├── STATE.md
 └── DECISIONS.md
 ```
+
+Use `.agentic/PROJECT.md` for durable repository facts.
+
+Transient runtime state remains in the runtime.
+
+## Methodology plugins
+
+- **Superpowers** provides methodology such as TDD, systematic debugging, and verification. Do not nest another scheduler under an active native scheduler.
+- **Ponytail** biases implementation toward the simplest correct solution. Explicit requirements, safety, and project invariants take precedence.
+
+Deduplicate equivalent planning, review, verification, and worktree setup.
+
+## Automatic review topology
+
+Choose automatically:
+
+- one focused reviewable change -> one PR;
+- independent reviewable changes -> independent PRs;
+- dependent but independently reviewable changes -> GitHub Stacked PRs.
+
+Use Stacked PRs only when they improve reviewability and throughput.
 
 ## Install
 
@@ -114,7 +133,7 @@ plugins/agentic-engineering/
     └── stacked-pr/SKILL.md
 ```
 
-No runtime hooks, custom agents, or plugin-side Python scripts are required.
+No runtime hooks, custom agents, or plugin-side orchestration scripts are required.
 
 ## Validation
 
