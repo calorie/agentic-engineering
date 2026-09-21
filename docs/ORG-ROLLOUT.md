@@ -1,6 +1,10 @@
 # Organization rollout
 
-Agentic Engineering 0.5.0 distributes a small shared engineering policy while leaving execution to Claude Code and Codex.
+Agentic Engineering 0.5.1 distributes a small shared engineering policy that tells Claude Code and Codex to proactively optimize execution while leaving the execution mechanism runtime-native.
+
+## Automatic optimization baseline
+
+For substantive work, the runtime should automatically optimize context isolation, delegation, parallelism, durable state, verification, and Git/PR topology. Users should not be required to choose agent count, context-cleanup timing, worktree allocation, or long-task-state initialization.
 
 ## Cost-aware baseline
 
