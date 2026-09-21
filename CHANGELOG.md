@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0
+
+- Replaced always-on maximum-effort policy with cost-aware escalation.
+- Claude Code now starts from normal model effort; ultracode is an optional session-level accelerator for high-leverage work.
+- Codex no longer requires project-level Ultra reasoning; native multi-agent capability remains available.
+- Removed Plugin hooks and runtime Python state/context scripts.
+- Removed custom Claude agents.
+- Removed separate doctor, project-bootstrap, and long-task Skills; their durable policy was folded into the minimal orchestrate Skill.
+- Removed orchestration reference documents and kept only two Skills: orchestrate and stacked-pr.
+- Kept Superpowers as methodology and Ponytail as implementation-minimization policy without introducing nested schedulers.
+- Reduced persistent state to project facts and optional SPEC / STATE / DECISIONS files.
+
 ## 0.4.2
 
 - Added an explicit Superpowers compatibility contract.
