@@ -42,7 +42,7 @@ versions = {
     "Codex manifest": codex_manifest.get("version"),
     "portable manifest": portable_manifest.get("version"),
 }
-if set(versions.values()) != {"0.5.0"}:
+if set(versions.values()) != {"0.5.1"}:
     errors.append("version mismatch: " + ", ".join(f"{k}={v}" for k, v in versions.items()))
 
 if portable_manifest.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json":
