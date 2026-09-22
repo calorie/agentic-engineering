@@ -42,7 +42,7 @@ versions = {
     "Codex manifest": codex_manifest.get("version"),
     "portable manifest": portable_manifest.get("version"),
 }
-if set(versions.values()) != {"0.5.1"}:
+if set(versions.values()) != {"0.5.2"}:
     errors.append("version mismatch: " + ", ".join(f"{k}={v}" for k, v in versions.items()))
 
 if portable_manifest.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json":
@@ -50,7 +50,7 @@ if portable_manifest.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/
 
 openai_ext = portable_manifest.get("extensions", {}).get("com.openai", {})
 if "hooks" in openai_ext:
-    errors.append("0.5.0 must not declare Plugin hooks")
+    errors.append("0.5.x must not declare Plugin hooks")
 
 codex_plugins = codex_market.get("plugins", [])
 if not codex_plugins or codex_plugins[0].get("source", {}).get("path") != "./plugins/agentic-engineering":
@@ -95,4 +95,4 @@ if errors:
         print("-", err)
     sys.exit(1)
 
-print("PASS: minimal 0.5.0 plugin structure")
+print("PASS: minimal 0.5.2 plugin structure")
