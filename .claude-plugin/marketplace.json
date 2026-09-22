@@ -11,8 +11,8 @@
     {
       "name": "agentic-engineering",
       "displayName": "Agentic Engineering",
-      "description": "A minimal policy layer that makes native runtimes proactively optimize effort, context isolation, delegation, parallelism, durable state, verification, and Git/PR topology.",
-      "version": "0.5.1",
+      "description": "A minimal policy layer that proactively optimizes engineering execution and proceeds autonomously until an important design or default-branch merge approval boundary.",
+      "version": "0.5.2",
       "author": {
         "name": "Agentic Engineering Maintainers"
       },
