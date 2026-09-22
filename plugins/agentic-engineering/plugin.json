@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agentic-engineering",
-  "version": "0.5.2",
-  "description": "Minimal runtime-neutral engineering policy with proactive optimization, routine autonomy, and explicit important-design/default-branch merge approval boundaries.",
+  "version": "0.5.3",
+  "description": "Minimal runtime-neutral engineering policy with proactive execution optimization and objective-level review DAG planning for one, independent, or Stacked PR topology.",
   "author": {
     "name": "Agentic Engineering Maintainers",
     "url": "https://github.com/calorie"
