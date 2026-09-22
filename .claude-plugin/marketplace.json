@@ -11,8 +11,8 @@
     {
       "name": "agentic-engineering",
       "displayName": "Agentic Engineering",
-      "description": "A minimal policy layer that proactively optimizes engineering execution and proceeds autonomously until an important design or default-branch merge approval boundary.",
-      "version": "0.5.2",
+      "description": "A minimal policy layer that proactively optimizes execution and plans review topology from the full objective, including early Stacked PR initialization for dependent reviewable work.",
+      "version": "0.5.3",
       "author": {
         "name": "Agentic Engineering Maintainers"
       },
