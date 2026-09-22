@@ -4,7 +4,7 @@ Agentic Engineering is a deliberately small policy plugin for Claude Code and Co
 
 It does **not** implement its own scheduler, context engine, worker pool, or hook runtime. Instead, it tells native runtimes to automatically optimize execution around a user-provided engineering objective.
 
-Current version: **0.5.2**
+Current version: **0.5.3**
 
 ## Goal
 
@@ -107,13 +107,17 @@ The project template configures Codex so normal repository and Git metadata writ
 
 ## Automatic review topology
 
+Immediately after receiving a substantive objective, derive the review dependency graph for the **full objective** before broad implementation.
+
 Choose automatically:
 
-- one focused reviewable change -> one PR;
-- independent reviewable changes -> independent PRs;
-- dependent but independently reviewable changes -> GitHub Stacked PRs.
+- one focused reviewable unit -> one PR;
+- independent reviewable units -> independent PRs;
+- dependent, independently reviewable and independently verifiable units -> GitHub Stacked PRs.
 
-Use Stacked PRs only when they improve reviewability and throughput.
+When stack conditions are met, initialize the stack before implementing dependent upper layers. Once a lower layer's contract is stable and locally verified, continue the upper layer on top of it without waiting for the lower PR to merge.
+
+Do not fall back to sequential PRs all based on `main` merely because implementation is milestone-by-milestone. Use Stacked PRs when they reduce review risk or remove merge-wait time from the critical path.
 
 ## Install
 
