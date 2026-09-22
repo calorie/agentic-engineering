@@ -42,7 +42,7 @@ versions = {
     "Codex manifest": codex_manifest.get("version"),
     "portable manifest": portable_manifest.get("version"),
 }
-if set(versions.values()) != {"0.5.2"}:
+if set(versions.values()) != {"0.5.3"}:
     errors.append("version mismatch: " + ", ".join(f"{k}={v}" for k, v in versions.items()))
 
 if portable_manifest.get("$schema") != "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json":
@@ -95,4 +95,4 @@ if errors:
         print("-", err)
     sys.exit(1)
 
-print("PASS: minimal 0.5.2 plugin structure")
+print("PASS: minimal 0.5.3 plugin structure")
