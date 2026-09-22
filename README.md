@@ -4,7 +4,7 @@ Agentic Engineering is a deliberately small policy plugin for Claude Code and Co
 
 It does **not** implement its own scheduler, context engine, worker pool, or hook runtime. Instead, it tells native runtimes to automatically optimize execution around a user-provided engineering objective.
 
-Current version: **0.5.1**
+Current version: **0.5.2**
 
 ## Goal
 
@@ -91,6 +91,19 @@ Transient runtime state remains in the runtime.
 - **Ponytail** biases implementation toward the simplest correct solution. Explicit requirements, safety, and project invariants take precedence.
 
 Deduplicate equivalent planning, review, verification, and worktree setup.
+
+## Approval boundaries
+
+Routine development should proceed autonomously without repeated confirmation.
+
+Normal edits, tests, `git add`, commits, feature-branch pushes, PR creation/updates, and verification are not approval boundaries.
+
+Ask the user only for:
+
+- important long-lived design decisions that cannot be inferred safely;
+- the final action that integrates changes into the default branch, such as merging a PR or directly merging/pushing to the default branch.
+
+The project template configures Codex so normal repository and Git metadata writes can proceed without sandbox approval prompts while merge commands remain an explicit approval boundary.
 
 ## Automatic review topology
 
