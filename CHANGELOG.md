@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.2
+
+- Added an autonomy contract: routine reversible engineering work proceeds without user approval.
+- Limited conversational approval to important long-lived design decisions that cannot be inferred safely.
+- Made integration into the default branch a hard user-approval boundary.
+- Documented that feature-branch commits, pushes, PR creation/updates, and verification should proceed autonomously.
+- Added template-side Codex permissions that allow normal workspace and Git metadata writes without sandbox prompts while preserving merge prompts.
+
 ## 0.5.1
 
 - Strengthened the contract from passive runtime ownership to proactive automatic optimization.
