@@ -1,7 +1,7 @@
 {
   "name": "agentic-engineering",
-  "version": "0.5.1",
-  "description": "Minimal engineering policy for Codex that proactively uses native delegation and context isolation while automatically managing durable state, verification, and review topology.",
+  "version": "0.5.2",
+  "description": "Minimal engineering policy for Codex with proactive optimization, routine autonomous execution, and explicit design/default-branch merge approval boundaries.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
