@@ -1,8 +1,8 @@
 {
   "name": "agentic-engineering",
   "displayName": "Agentic Engineering",
-  "version": "0.5.2",
-  "description": "Minimal engineering policy for Claude Code with proactive optimization, high routine autonomy, and explicit design/merge approval boundaries.",
+  "version": "0.5.3",
+  "description": "Minimal engineering policy for Claude Code with proactive execution optimization and objective-level review DAG planning, including early Stacked PR topology when beneficial.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
