@@ -1,7 +1,7 @@
 ---
 name: orchestrate
 description: Automatically optimize substantive software work using runtime-native capabilities. Proactively protect context, delegate and parallelize beneficial work, persist durable state for long-running tasks, deduplicate verification, and choose review topology without making the user manage orchestration.
-version: 0.5.1
+version: 0.5.2
 ---
 
 # Agentic Engineering
@@ -126,6 +126,39 @@ Use:
 Update durable state at meaningful milestones, not after every tool call.
 
 Do not ask the user to initialize or maintain task state. Do not persist native runtime agent graphs, workflow queues, compaction state, or full transcripts.
+
+## Autonomy and approval boundaries
+
+Proceed without user approval for routine, reversible engineering work that is within the stated objective and repository constraints.
+
+This includes, when appropriate:
+
+- reading and editing repository files;
+- running formatters, linters, tests, builds, and code generation;
+- installing or updating dependencies consistent with the existing stack and dependency policy;
+- creating branches and worktrees;
+- `git add`, commits, rebases, and other normal feature-branch maintenance;
+- pushing non-default branches;
+- creating and updating pull requests;
+- running review and verification workflows.
+
+Ask the user before making an **important design decision** that materially changes long-lived system direction and cannot be inferred safely. Examples include:
+
+- a major architecture or subsystem boundary;
+- a public API or persistent data-contract change with broad compatibility impact;
+- an irreversible or high-risk migration strategy;
+- a security or trust-boundary change;
+- adopting a foundational technology or dependency that materially changes the system architecture.
+
+Do not ask for routine implementation choices, local refactors, naming, test structure, or other reversible decisions.
+
+Treat integration into the default branch as a hard approval boundary:
+
+- do not merge a pull request without explicit user approval immediately before the merge;
+- do not locally merge into, or directly push to, the repository default branch without explicit user approval immediately before the action;
+- creating/updating a PR, pushing its feature branch, and preparing it for merge do not require approval.
+
+If repository or organization policy imposes a stricter boundary, obey the stricter policy.
 
 ## Verification
 
