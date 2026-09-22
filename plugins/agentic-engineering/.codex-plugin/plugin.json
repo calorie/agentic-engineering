@@ -1,7 +1,7 @@
 {
   "name": "agentic-engineering",
-  "version": "0.5.2",
-  "description": "Minimal engineering policy for Codex with proactive optimization, routine autonomous execution, and explicit design/default-branch merge approval boundaries.",
+  "version": "0.5.3",
+  "description": "Minimal engineering policy for Codex with proactive execution optimization and objective-level review DAG planning, including early Stacked PR topology when beneficial.",
   "author": {
     "name": "Agentic Engineering Maintainers"
   },
