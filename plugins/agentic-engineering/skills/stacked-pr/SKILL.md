@@ -1,7 +1,7 @@
 ---
 name: stacked-pr
 description: Use GitHub native stacked pull requests when changes are dependent but independently reviewable. Do not stack independent work or a single focused change.
-version: 0.5.1
+version: 0.5.2
 ---
 
 # GitHub Stacked Pull Requests
@@ -34,3 +34,7 @@ Install or refresh the extension only when environment changes are permitted:
 ```bash
 gh extension install github/gh-stack --force
 ```
+
+## Merge boundary
+
+Prepare, submit, rebase, and update the stack autonomously. Do not merge the stack or any pull request into the default branch until the user gives explicit approval immediately before merge.
