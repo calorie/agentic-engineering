@@ -1,7 +1,7 @@
 ---
 name: orchestrate
 description: Automatically optimize substantive software work using runtime-native capabilities. Proactively protect context, delegate and parallelize beneficial work, persist durable state for long-running tasks, deduplicate verification, and choose review topology without making the user manage orchestration.
-version: 0.5.2
+version: 0.5.3
 ---
 
 # Agentic Engineering
@@ -12,18 +12,46 @@ The user should normally provide only the engineering objective. Automatically c
 
 ## Automatic optimization loop
 
-For every substantive task, automatically decide:
+Immediately after receiving a substantive objective, before broad implementation begins:
 
-1. the minimum useful reasoning/effort level;
-2. what should remain in the primary context;
-3. what should be delegated to fresh subagents;
-4. what independent work should run in parallel;
-5. whether isolated worktrees/checkouts are required;
-6. whether durable task state is required;
-7. what verification evidence is sufficient;
-8. whether the result should be one PR, independent PRs, or a Stacked PR.
+1. derive the review dependency graph for the full objective;
+2. partition the objective into the smallest useful independently reviewable and independently verifiable units;
+3. choose one PR, independent PRs, or a Stacked PR topology from that graph;
+4. initialize the chosen review topology before implementing dependent upper layers;
+5. then decide the minimum useful reasoning/effort level;
+6. decide what should remain in the primary context;
+7. decide what should be delegated to fresh subagents;
+8. decide what independent work should run in parallel;
+9. decide whether isolated worktrees/checkouts are required;
+10. decide whether durable task state is required;
+11. decide what verification evidence is sufficient.
 
 Do not ask the user to make these orchestration decisions unless a real product, authorization, or irreversible-action decision requires input.
+
+## Review dependency graph
+
+Plan review topology from the **full user objective**, not only from the currently active implementation step.
+
+For each candidate review unit, identify:
+
+- what durable contract or behavior it establishes;
+- which later units depend on it;
+- whether it can be reviewed meaningfully on its own;
+- whether it has a meaningful verification story on its own.
+
+Choose topology before broad implementation:
+
+- one focused reviewable unit -> one PR;
+- multiple independent reviewable units -> independent PRs;
+- multiple dependent, independently reviewable and independently verifiable units -> Stacked PRs.
+
+When the objective already exposes dependent milestones or phases, treat that as strong evidence for a stack unless the milestones cannot produce meaningful intermediate review states.
+
+If Stacked PR conditions are met, invoke the `stacked-pr` skill and initialize the stack **before implementing dependent upper layers**.
+
+Do not serialize dependent work through the default branch merely because implementation proceeds one milestone at a time. Once a lower layer's contract is stable and locally verified, continue the dependent upper layer on top of it without waiting for the lower PR to merge.
+
+Do not split work into stacks merely to create more PRs. Review units must reduce review risk, unblock later work, or shorten the merge-wait critical path.
 
 ## Effort policy
 
@@ -170,17 +198,22 @@ Do not repeat an equivalent review or verification pass merely because the runti
 
 Do not declare completion while relevant verification is failing unless the failure is explicitly reported as a blocker.
 
-## Review topology
+## Review topology during execution
 
-Choose review topology automatically from dependency structure and reviewability:
-
-- one focused reviewable change -> one PR;
-- independent reviewable changes -> independent PRs;
-- dependent but independently reviewable changes -> Stacked PRs.
+Preserve the review topology selected at objective intake unless new information materially changes the dependency graph.
 
 Execution topology does not determine PR topology.
 
-Use Stacked PRs when they improve reviewability without introducing unnecessary coordination cost.
+For a stack:
+
+- keep dependency order explicit;
+- stabilize and verify a lower layer before building dependent behavior on top of it;
+- do not wait for lower-layer merge when the upper layer can safely proceed against the stable lower-layer contract;
+- fix lower-layer defects in the lower layer and propagate/rebase upward;
+- keep each layer independently reviewable and meaningfully verifiable;
+- do not collapse later dependent milestones back into sequential `main`-based PRs simply because earlier layers have already been submitted.
+
+Re-plan the topology only when scope or dependencies materially change.
 
 ## User experience
 
