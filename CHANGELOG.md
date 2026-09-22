@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.3
+
+- Moved review-topology planning to objective intake, before broad implementation begins.
+- Require a review dependency graph for the full objective rather than PR-by-PR local decisions.
+- Make dependent, independently reviewable and verifiable units default to Stacked PR topology.
+- Require stack initialization before dependent upper-layer implementation.
+- Allow upper layers to proceed after the lower contract is stable and locally verified instead of waiting for lower-layer merge.
+- Prevent milestone-by-milestone work from silently degrading into sequential PRs all based on the default branch.
+
 ## 0.5.2
 
 - Added an autonomy contract: routine reversible engineering work proceeds without user approval.
